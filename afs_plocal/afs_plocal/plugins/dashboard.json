@@ -1,0 +1,10 @@
+{
+    "pluginid": "b122ede7-24a6-4fc5-a3cc-f95bfa28b1cf",
+    "name": "Dashboard",
+    "icon": "fa fa-rocket",     
+    "component": "views/components/plugins/dashboard",
+    "componentname": "dashboard",
+    "config": {"show": true, "is_workflow": false, "description": ""},
+    "slug": "dashboard",
+    "sortorder": 0
+}

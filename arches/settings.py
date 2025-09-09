@@ -151,11 +151,25 @@ INSTALLED_APPS = (
 )
 
 # Added for AfS (Arches for Science) project
-ARCHES_APPLICATIONS = ('arches_for_science',)
+ARCHES_APPLICATIONS = ('arches_for_science', 'afs_plocal')
 
 # Placing this last ensures any templates provided by Arches Applications
 # take precedence over core arches templates in arches/app/templates.
 INSTALLED_APPS += ("arches.app",)
+
+PLUGINS = [
+    {
+        "id": "c9c70488-8c5a-4959-b8b4-2200a4175d99",
+        "name": "dashboard",
+        "component": "views/components/plugins/dashboard",
+        "componentname": "dashboard",
+        "config": {
+            "show": True
+        },
+        "icon": "fa fa-tachometer",
+        "sortorder": 0
+    },
+]
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

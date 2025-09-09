@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 USER root
 
 # Do the apt installation also install git
-RUN apt-get update && && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     python3.13 \
     python3.13-dev \
     python3.13-venv \
@@ -24,7 +24,7 @@ RUN apt-get update --fix-missing && apt-get install -y git
 RUN apt-get update
 RUN apt-get install -y postgresql-client-14
 
-FROM python:3.13
+FROM python:3.13-bookworm
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -162,7 +162,7 @@ RUN pip install supervisor==4.2.1 \
     && pip install tzdata --upgrade \
     && pip install Redis \
     && pip install gunicorn \
-    && pip install arches==7.6.11 \
+    && pip install arches==7.6.14 \
     && pip install pyasynchat \
     && pip install pyasyncore \
     && arches-admin startproject ${ARCHES_PROJECT}

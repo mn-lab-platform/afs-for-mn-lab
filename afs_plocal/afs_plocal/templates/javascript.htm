@@ -1,0 +1,14 @@
+{% extends "javascript.htm" %}
+{% load static %}
+{% load l10n %}
+{% load i18n %}
+
+{% block arches_urls %}
+{{ block.super }}
+<div class="arches-urls"
+    dashdata = "{% url 'dashdata' %}"
+></div>
+<script>
+    console.log("Dashdata URL in template:", "{% url 'dashdata' %}");
+</script>
+{% endblock arches_urls %}
