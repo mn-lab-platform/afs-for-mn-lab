@@ -136,7 +136,23 @@ services:
         max-file: "10"
     networks:
       - afs_plocal_net
-
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+      - arches-static:/static_root
+      - ./nginx:/customization:ro
+    depends_on:
+      - arches
+    networks:
+      - afs_plocal_net
 networks:
   afs_plocal_net:
     driver: bridge
