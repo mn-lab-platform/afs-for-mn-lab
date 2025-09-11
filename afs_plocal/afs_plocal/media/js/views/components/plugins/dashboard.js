@@ -11,7 +11,7 @@ define([
         this.records = ko.observable();
 
         this.getStatus = async function() {
-            const dashdataUrl = "http://localhost:8004/dashdata/"; // Hardcoded URL
+            const dashdataUrl = "/dashdata/"; // Hardcoded URL
             console.log('dashdata URL:', dashdataUrl);
             const response = await window.fetch(dashdataUrl);
             const data = await response.json();
@@ -22,7 +22,7 @@ define([
         };
 
         this.saveStatus = async function() {
-            const dashdataUrl = "http://localhost:8004/dashdata/"; // Hardcoded URL
+            const dashdataUrl = "/dashdata/"; // Hardcoded URL
             console.log('dashdata URL:', dashdataUrl);
             const response = await fetch(dashdataUrl, {
                 method: 'POST',
