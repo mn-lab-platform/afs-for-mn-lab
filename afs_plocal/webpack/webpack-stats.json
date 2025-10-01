@@ -1,6 +1,16 @@
 {
   "status": "done",
   "assets": {
+    "css/PtmLeaflet.css": {
+      "name": "css/PtmLeaflet.css",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/css/PtmLeaflet.css",
+      "publicPath": "/static/css/PtmLeaflet.css"
+    },
+    "css/PtmLeaflet.js": {
+      "name": "css/PtmLeaflet.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/css/PtmLeaflet.js",
+      "publicPath": "/static/css/PtmLeaflet.js"
+    },
     "css/abstracts/_breakpoint-settings.css": {
       "name": "css/abstracts/_breakpoint-settings.css",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/css/abstracts/_breakpoint-settings.css",
@@ -666,6 +676,16 @@
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/css/sidenav.js",
       "publicPath": "/static/css/sidenav.js"
     },
+    "css/style.css": {
+      "name": "css/style.css",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/css/style.css",
+      "publicPath": "/static/css/style.css"
+    },
+    "css/style.js": {
+      "name": "css/style.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/css/style.js",
+      "publicPath": "/static/css/style.js"
+    },
     "css/themes/_colors.css": {
       "name": "css/themes/_colors.css",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/css/themes/_colors.css",
@@ -1203,6 +1223,11 @@
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/afs-settings.js",
       "publicPath": "/static/js/afs-settings.js"
     },
+    "js/afs_plocal_media_viewer_index_js.chunk.js": {
+      "name": "js/afs_plocal_media_viewer_index_js.chunk.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/afs_plocal_media_viewer_index_js.chunk.js",
+      "publicPath": "/static/js/afs_plocal_media_viewer_index_js.chunk.js"
+    },
     "js/arches-for-science_arches_for_science_media_js_bindings_datatable_js.chunk.js": {
       "name": "js/arches-for-science_arches_for_science_media_js_bindings_datatable_js.chunk.js",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/arches-for-science_arches_for_science_media_js_bindings_datatable_js.chunk.js",
@@ -1548,11 +1573,6 @@
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/report-templates.js",
       "publicPath": "/static/js/report-templates.js"
     },
-    "js/reports/custom_report.js": {
-      "name": "js/reports/custom_report.js",
-      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/reports/custom_report.js",
-      "publicPath": "/static/js/reports/custom_report.js"
-    },
     "js/reports/default.js": {
       "name": "js/reports/default.js",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/reports/default.js",
@@ -1577,6 +1597,11 @@
       "name": "js/reports/tabbed.js",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/reports/tabbed.js",
       "publicPath": "/static/js/reports/tabbed.js"
+    },
+    "js/reports/viewer_report.js": {
+      "name": "js/reports/viewer_report.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/reports/viewer_report.js",
+      "publicPath": "/static/js/reports/viewer_report.js"
     },
     "js/resource-types.js": {
       "name": "js/resource-types.js",
@@ -3287,6 +3312,10 @@
     "card-components": [
       "js/card-components.js"
     ],
+    "css/PtmLeaflet": [
+      "css/PtmLeaflet.css",
+      "css/PtmLeaflet.js"
+    ],
     "css/abstracts/_breakpoint-settings": [
       "css/abstracts/_breakpoint-settings.css",
       "css/abstracts/_breakpoint-settings.js"
@@ -3554,6 +3583,10 @@
       "css/sidenav.css",
       "css/sidenav.js"
     ],
+    "css/style": [
+      "css/style.css",
+      "css/style.js"
+    ],
     "css/themes/_colors": [
       "css/themes/_colors.css",
       "css/themes/_colors.js"
@@ -3644,9 +3677,6 @@
     "report-templates": [
       "js/report-templates.js"
     ],
-    "reports/custom_report": [
-      "js/reports/custom_report.js"
-    ],
     "reports/default": [
       "js/reports/default.js"
     ],
@@ -3661,6 +3691,9 @@
     ],
     "reports/tabbed": [
       "js/reports/tabbed.js"
+    ],
+    "reports/viewer_report": [
+      "js/reports/viewer_report.js"
     ],
     "resource-types": [
       "js/resource-types.js"
