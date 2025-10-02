@@ -51,7 +51,9 @@
 </style>
     <h2>Image Viewer Reportv2</h2>
 
-    <div id="ptmViewer" data-bind="afterRender: onPtmViewerRendered" style="width: 100%; height: 500px; margin: 20px 0; border: 1px solid #ccc;"></div>
+    <div data-bind="template: { afterRender: onPtmViewerRendered }">
+        <div id="ptmViewer" style="width: 100%; height: 500px; margin: 20px 0; border: 1px solid #ccc;"></div>
+    </div>
 
     <!--ko if: hasProvisionalData() && (editorContext === false) -->
     <div class="report-provisional-flag">{% trans 'This resource has provisional edits (not displayed in this report) that are pending review' %}</div>
