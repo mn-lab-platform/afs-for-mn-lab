@@ -6,6 +6,7 @@ services:
     env_file:
       - ./.env
     environment:
+      - TZ="${TZ}"     
       - PGUSER=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgis
@@ -54,6 +55,8 @@ services:
     container_name: arches_redis
     image: "redis:6-alpine"
     restart: always
+    environment:
+    - TZ="${TZ}"         
     ports:
       - "6379:6379"
     volumes:
@@ -98,6 +101,7 @@ services:
         APP_COMP_FOLDER: ${APP_COMP_FOLDER}
         UPLOADED_FILES_FOLDER: ${UPLOADED_FILES_FOLDER}
     environment:
+      - TZ="${TZ}"    
       - DEBUG="${DJANGO_DEBUG}"
       - DJANGO_DEBUG=${DJANGO_DEBUG}
       - DJANGO_MODE=${DJANGO_MODE}
@@ -129,6 +133,8 @@ services:
       - ../arches_data/:/arches_data
       - cantaloupe_afs_plocal:${UPLOADED_FILES_FOLDER}
       - ./${ARCHES_PROJECT}:/arches_app/${ARCHES_PROJECT}
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"      
     logging:
       driver: "json-file"
       options:

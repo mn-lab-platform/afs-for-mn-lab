@@ -1,7 +1,7 @@
 # Edit this file and save as ".env" for use.
 
 COMPOSE_PROJECT_NAME=afs_plocal
-TZ=PST
+TZ=Europe/Warsaw
 
 #arches project and paths
 ARCHES_PROJECT=afs_plocal

@@ -46,6 +46,7 @@ FILE_TYPES = [
     "xlsx",
     "csv",
     "zip",
+    "nxz",
 ]
 FILENAME_GENERATOR = "arches.app.utils.storage_filename_generator.generate_filename"
 UPLOADED_FILES_DIR = "uploadedfiles"
@@ -93,6 +94,9 @@ KIBANA_CONFIG_BASEPATH = "kibana"  # must match Kibana config.yml setting (serve
 LOAD_DEFAULT_ONTOLOGY = False
 LOAD_PACKAGE_ONTOLOGIES = True
 
+TIME_ZONE = 'Europe/Warsaw'
+USE_TZ = True
+
 # This is the namespace to use for export of data (for RDF/XML for example)
 # It must point to the url where you host your site
 # Make sure to use a trailing slash
@@ -116,7 +120,7 @@ DATABASES = {
             "MIRROR": None,
             "NAME": None
         },
-        "TIME_ZONE": None,
+        "TIME_ZONE": "Europe/Warsaw",
         "USER": "postgres"
     }
 }
