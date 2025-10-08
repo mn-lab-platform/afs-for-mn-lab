@@ -1573,6 +1573,11 @@
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/report-templates.js",
       "publicPath": "/static/js/report-templates.js"
     },
+    "js/reports/custom_report.js": {
+      "name": "js/reports/custom_report.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/reports/custom_report.js",
+      "publicPath": "/static/js/reports/custom_report.js"
+    },
     "js/reports/default.js": {
       "name": "js/reports/default.js",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/reports/default.js",
@@ -3676,6 +3681,9 @@
     ],
     "report-templates": [
       "js/report-templates.js"
+    ],
+    "reports/custom_report": [
+      "js/reports/custom_report.js"
     ],
     "reports/default": [
       "js/reports/default.js"

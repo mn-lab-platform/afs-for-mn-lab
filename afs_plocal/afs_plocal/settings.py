@@ -100,7 +100,7 @@ USE_TZ = True
 # This is the namespace to use for export of data (for RDF/XML for example)
 # It must point to the url where you host your site
 # Make sure to use a trailing slash
-ARCHES_NAMESPACE_FOR_DATA_EXPORT = "http://localhost:8000/"
+ARCHES_NAMESPACE_FOR_DATA_EXPORT = "http://lab.mn.cenagis.edu.pl/"
 
 DATABASES = {
     "default": {
@@ -210,11 +210,11 @@ TEMPLATES = build_templates_config(
 
 
 ALLOWED_HOSTS = [
-    'labmn.cenagis.edu.pl',
+    'lab.mn.cenagis.edu.pl',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://labmn.cenagis.edu.pl',
+    'https://lab.mn.cenagis.edu.pl',
 ]
 
 

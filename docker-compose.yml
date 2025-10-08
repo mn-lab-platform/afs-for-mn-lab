@@ -116,7 +116,7 @@ services:
     tty: true        # docker run -t
     ports:
       - "5432:5432"
-      - 8004:8000
+      - 80:8000
       - 5678:5678
       - 5984:5984
     depends_on:
@@ -126,7 +126,7 @@ services:
     command:
       - run_arches
     expose:
-      - 8004:8000
+      - 80:8000
     volumes:
       - arches-log:/web_root/logs
       - arches-static:/static_root
@@ -142,23 +142,23 @@ services:
         max-file: "10"
     networks:
       - afs_plocal_net
-  nginx:
-    container_name: nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    env_file:
-      - ./.env
-    ports:
-      - "80:80"
-    volumes:
-      - ./html:/usr/share/nginx/html:ro
-      - arches-static:/static_root
-      - ./nginx:/customization:ro
-    depends_on:
-      - arches
-    networks:
-      - afs_plocal_net
+  # nginx:
+  #   container_name: nginx
+  #   build:
+  #     context: ./nginx
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - ./.env
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./html:/usr/share/nginx/html:ro
+  #     - arches-static:/static_root
+  #     - ./nginx:/customization:ro
+  #   depends_on:
+  #     - arches
+  #   networks:
+  #     - afs_plocal_net
 networks:
   afs_plocal_net:
     driver: bridge
