@@ -1,0 +1,8 @@
+{
+    "name": "Viewer report",
+    "componentid": "aee56c3a-44cf-4ab2-a5fb-6c51cda7b761",
+    "component": "reports/viewer_report",
+    "componentname": "viewer_report",
+    "description": "A custom report.",
+    "defaultconfig": {}
+}

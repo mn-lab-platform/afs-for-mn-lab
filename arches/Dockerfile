@@ -165,6 +165,8 @@ RUN pip install supervisor==4.2.1 \
     && pip install arches==7.6.14 \
     && pip install pyasynchat \
     && pip install pyasyncore \
+    && pip install iiif-prezi3==3.0.0 \
+    
     && arches-admin startproject ${ARCHES_PROJECT}
 
 WORKDIR ${ARCHES_ROOT}

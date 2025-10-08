@@ -79,23 +79,23 @@ eval("{// Module\nvar code = `\n\n\n<!-- ko if: !configForm  && state === 'form'
 
 /***/ }),
 
-/***/ "./afs_plocal/media/js/reports/custom_report.js":
+/***/ "./afs_plocal/media/js/reports/viewer_report.js":
 /*!******************************************************!*\
-  !*** ./afs_plocal/media/js/reports/custom_report.js ***!
+  !*** ./afs_plocal/media/js/reports/viewer_report.js ***!
   \******************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
-eval("{var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! knockout */ \"./node_modules/knockout/build/output/knockout-latest.js\"), __webpack_require__(/*! viewmodels/report */ \"../../opt/venv/lib/python3.13/site-packages/arches/app/media/js/viewmodels/report.js\"), __webpack_require__(/*! templates/views/report-templates/custom_report.htm */ \"./afs_plocal/templates/views/report-templates/custom_report.htm\")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (ko, ReportViewModel, customReportTemplate) {\n  return ko.components.register('custom_report', {\n    viewModel: function viewModel(params) {\n      params.configKeys = [];\n      var self = this;\n      // define params for custom report here\n\n      ReportViewModel.apply(this, [params]);\n      // Put custom report logic here\n    },\n    template: customReportTemplate\n  });\n}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),\n\t\t__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));\n\n//# sourceURL=webpack://afs_plocal/./afs_plocal/media/js/reports/custom_report.js?\n}");
+eval("{var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;console.log(\"viewer_report.js loaded\");\n!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! knockout */ \"./node_modules/knockout/build/output/knockout-latest.js\"), __webpack_require__(/*! viewmodels/report */ \"../../opt/venv/lib/python3.13/site-packages/arches/app/media/js/viewmodels/report.js\"), __webpack_require__(/*! templates/views/report-templates/viewer_report.htm */ \"./afs_plocal/templates/views/report-templates/viewer_report.htm\")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (ko, ReportViewModel, viewerReportTemplate) {\n  return ko.components.register('viewer_report', {\n    viewModel: function viewModel(params) {\n      params.configKeys = [];\n      ReportViewModel.apply(this, [params]);\n      var self = this;\n      self.viewerInitialized = false;\n      this.onPtmViewerRendered = function () {\n        if (self.viewerInitialized) {\n          console.log(\"Viewer already initialized, skipping\");\n          return;\n        }\n        var viewerEl = document.getElementById('ptmViewer');\n        if (!viewerEl) {\n          console.error(\"ptmViewer element not found\");\n          return;\n        }\n\n        // Check if PTM containers already exist\n        var existingContainers = viewerEl.querySelectorAll('.ptm-container');\n        if (existingContainers.length > 0) {\n          console.log(\"PTM containers already exist, skipping initialization\");\n          return;\n        }\n        self.viewerInitialized = true;\n        viewerEl.innerHTML = '';\n        console.log(\"Initializing PTM viewer...\");\n        __webpack_require__.e(/*! AMD require */ \"afs_plocal_media_viewer_index_js\").then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(/*! ../../viewer/index.js */ \"./afs_plocal/media/viewer/index.js\")]; (function (viewer) {\n          try {\n            viewer.init(\"ptmViewer\", {\n              imageGroupId: \"test\",\n              imageServerBaseUrl: \"/iiifserver/iiif/3\",\n              manifestFileUrl: \"/rti-manifest\"\n            });\n          } catch (e) {\n            console.error(\"Error initializing viewer:\", e);\n            viewerEl.innerHTML = \"<p>Error loading viewer: \" + e.message + \"</p>\";\n          }\n        }).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);})['catch'](__webpack_require__.oe);\n      };\n    },\n    template: viewerReportTemplate\n  });\n}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),\n\t\t__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));\n\n//# sourceURL=webpack://afs_plocal/./afs_plocal/media/js/reports/viewer_report.js?\n}");
 
 /***/ }),
 
-/***/ "./afs_plocal/templates/views/report-templates/custom_report.htm":
+/***/ "./afs_plocal/templates/views/report-templates/viewer_report.htm":
 /*!***********************************************************************!*\
-  !*** ./afs_plocal/templates/views/report-templates/custom_report.htm ***!
+  !*** ./afs_plocal/templates/views/report-templates/viewer_report.htm ***!
   \***********************************************************************/
 /***/ ((module) => {
 
-eval("{// Module\nvar code = `\n<!-- ko if: !\\$data.configForm -->\n<!-- ko if: !\\$data.summary -->\n\n\n\n\n<!-- Report Title Bar -->\n<div class=\"relative report-title-bar\">\n\n    <!-- Title Block -->\n    <div class=\"report-toolbar-preview ep-form-toolbar\">\n        <div class=\"h4 report-toolbar-title\"><span data-bind=\"text: report.get('name')\"></span> - <span data-bind=\"text: report.get('displayname') \"></span></div>\n\n        <!-- Tools -->\n        <div class=\"ep-form-toolbar-tools mar-no flex\">\n            <p class=\"report-print-date\">\n                <span data-bind=\"text: \\$root.translations.reportDate\"></span>\n                <span data-bind=\"text: reportDate\"></span>\n            </p>\n\n            <div class=\"report-print-date\" data-bind=\"component: { \n                    name: 'views/components/simple-switch', \n                    params: {\n                        value: hideEmptyNodes, \n                        config:{ label: \\$root.translations.hideNullValues, subtitle: ''}\n                    }\n                }\"></div>\n        </div>\n    </div>\n</div>\n\n\n\n<!-- Report Content -->\n<div class=\"rp-report-container-preview\">\n\n    \n    \n\n    \n    <!--ko if: hasProvisionalData() && (editorContext === false) -->\n    <div class=\"report-provisional-flag\">This resource has provisional edits (not displayed in this report) that are pending review</div>\n    <!--/ko-->\n    <!--ko if: hasProvisionalData() && (editorContext === true && report.userisreviewer === true) -->\n    <div class=\"report-provisional-flag\">This resource has provisional edits (not displayed in this report) that are pending review</div>\n    <!--/ko-->\n    <!--ko if: hasProvisionalData() && (editorContext === true && report.userisreviewer === false) -->\n    <div class=\"report-provisional-flag\">This resource has provisional edits that are pending review</div>\n    <!--/ko-->\n\n    <div class=\"rp-report-section relative rp-report-section-root\">\n        <div class=\"rp-report-section-title\">\n            <!-- ko foreach: { data: report.cards, as: 'card' } -->\n                <!-- ko if: !!(ko.unwrap(card.tiles).length > 0) -->\n                <!-- ko if: \\$index() !== 0 --><hr class=\"rp-tile-separator\"><!-- /ko -->\n                <div class=\"rp-card-section\">\n                    <!-- ko component: {\n                        name: card.model.cardComponentLookup[card.model.component_id()].componentname,\n                        params: {\n                            state: 'report',\n                            preview: \\$parent.report.preview,\n                            card: card,\n                            pageVm: \\$root,\n                            hideEmptyNodes: \\$parent.hideEmptyNodes\n                        }\n                    } --> <!-- /ko -->\n                </div>\n                <!-- /ko -->\n            <!-- /ko -->\n        </div>\n    </div>\n    \n    \n    \n    \n    <div class=\"rp-report-section relative report-related-resources\">\n        <div class=\"rp-report-section-title\">\n            <div class=\"h4 rp-section-title\"><span data-bind=\"text: \\$root.translations.relatedResources\"></span></div>\n        </div>\n        \n        <!-- ko foreach: { data: Object.values(report.relatedResourcesLookup()), as: 'resourceData' } -->\n        <!-- ko if: resourceData.totalRelatedResources > 0 || !\\$parent.hideEmptyNodes() -->\n        <div class=\"h5 rp-tile-title\">\n            <span class=\"rp-tile-title-float\" data-bind=\"text: resourceData.name\"></span>\n        </div>\n\n        <div class=\"rp-card-section\">\n            <!-- ko foreach: { data: resourceData.loadedRelatedResources(), as: 'relatedResource' } -->\n            <div class=\"rp-report-container-tile\">\n                <div class=\"row rp-report-tile\">\n                    <dl class=\"dl-horizontal\">\n                        <dt><a data-bind=\"text: relatedResource.displayName, attr: {href: relatedResource.link}\"></a></dt>\n                        <!-- ko if: relatedResource.relationship -->\n                        <dd data-bind=\"text: '( ' + relatedResource.relationship + ' )'\"></dd>\n                        <!-- /ko -->\n                    </dl>\n                </div>\n            </div>\n            <!-- /ko -->\n\n            <!-- ko if: resourceData.paginator() && resourceData.paginator().has_next -->\n            <button class=\"btn btn-primary\" data-bind=\"click: \\$parent.report.getRelatedResources.bind(\\$parent.report, false)\">\n                <span data-bind=\"text: \\$root.translations.loadMore\"></span>\n                <span data-bind=\"text: '(' + resourceData.remainingResources() + ')'\"></span>\n            </button>\n\n            <button class=\"btn btn-primary\" data-bind=\"click: \\$parent.report.getRelatedResources.bind(\\$parent.report, true)\">\n                <span data-bind=\"text: \\$root.translations.loadAll\"></span>\n                <span data-bind=\"text: '(' + (resourceData.totalRelatedResources - resourceData.loadedRelatedResources().length) + ')'\"></span>\n            </button>\n            <!-- /ko -->\n                \n            <!--ko if: resourceData.totalRelatedResources === 0 -->\t\n            <div class=\"rp-report-container-tile\">\t\n                <div class=\"row rp-report-tile rp-no-data\"><span data-bind=\"text: \\$root.translations.noRelationshipsAdded\"></span></div>\t\n            </div>\t\n            <!--/ko-->\n        </div>\n        <!-- /ko -->\n        <!-- /ko -->    \n    </div>  \n    \n\n    \n    \n</div>\n\n<!-- /ko -->\n\n<!-- ko if: \\$data.summary -->\n\n<div class=\"relative report-title-bar\">\n\n    <!-- Title Block -->\n    <div class=\"report-toolbar-preview ep-form-toolbar\">\n        <h4 class=\"report-toolbar-title\"><span data-bind=\"text: report.get('name')\"></span> - <span data-bind=\"text: report.get('displayname') \"></span></h4>\n\n        <!-- Tools -->\n        <div class=\"ep-form-toolbar-tools mar-no flex\">\n            <p class=\"report-print-date\">\n                <span data-bind=\"text: \\$root.translations.reportDate\"></span>\n                <span data-bind=\"text: reportDate\"></span>\n            </p>\n        </div>\n    </div>\n</div>\n\n<div class=\"rp-report-container-preview\">\n    <div class=\"rp-report-section relative rp-report-section-root\">\n        <div class=\"rp-report-section-title\">\n            <!-- ko if: report.cards.length > 0 -->\n                <!--ko let: { card: report.cards[0] }-->\n                <div class=\"rp-card-section\">\n                    <!-- ko component: {\n                        name: card.model.cardComponentLookup[card.model.component_id()].componentname,\n                        params: {\n                        state: 'report',\n                        preview: report.preview,\n                        card: card,\n                        pageVm: \\$root\n                    }\n                    } --> <!-- /ko -->\n                </div>\n                <!--/ko-->\n            <!-- /ko -->\n        </div>\n    </div>\n</div>\n\n<!-- /ko -->\n<!-- end of not configForm -->\n<!-- /ko -->\n\n\n<!-- ko if: \\$data.configForm && (\\$data.configType === 'header') -->\n\n\n<!-- /ko -->\n`;\n// Exports\nmodule.exports = code;\n\n//# sourceURL=webpack://afs_plocal/./afs_plocal/templates/views/report-templates/custom_report.htm?\n}");
+eval("{// Module\nvar code = `\n<!-- ko if: !\\$data.configForm -->\n<!-- ko if: !\\$data.summary -->\n\n\n\n\n<!-- Report Title Bar -->\n<div class=\"relative report-title-bar\">\n\n    <!-- Title Block -->\n    <div class=\"report-toolbar-preview ep-form-toolbar\">\n        <div class=\"h4 report-toolbar-title\"><span data-bind=\"text: report.get('name')\"></span> - <span data-bind=\"text: report.get('displayname') \"></span></div>\n\n        <!-- Tools -->\n        <div class=\"ep-form-toolbar-tools mar-no flex\">\n            <p class=\"report-print-date\">\n                <span data-bind=\"text: \\$root.translations.reportDate\"></span>\n                <span data-bind=\"text: reportDate\"></span>\n            </p>\n\n            <div class=\"report-print-date\" data-bind=\"component: { \n                    name: 'views/components/simple-switch', \n                    params: {\n                        value: hideEmptyNodes, \n                        config:{ label: \\$root.translations.hideNullValues, subtitle: ''}\n                    }\n                }\"></div>\n        </div>\n    </div>\n</div>\n\n\n\n<!-- Report Content -->\n<div class=\"rp-report-container-preview\">\n\n    \n    \n\n    \n<style>\n    .ptm-container {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: column;\n        justify-content: center;\n        align-items: center;\n        position: relative;\n    }\n    .ptm-map {\n        width: 100%;\n        height: 100%;\n    }\n\n    .ptm-sphere {\n        aspect-ratio: 1;\n        border-radius: 50%;\n        position: absolute; \n        top: 2%; \n        right: 2%; \n        z-index: 1000;\n    }\n\n    .rotate-button {\n        width: 35px;\n        height: 35px;\n        font-size: large;\n\n        display: flex;\n        justify-content: center;\n        align-items: center;\n\n        box-sizing: border-box;\n    }\n\n    .rotate-button.right-highlight {\n        border-right: 5px solid #0059b3;\n    }\n\n    .rotate-button.bottom-highlight {\n        border-bottom: 5px solid #0059b3;\n    }\n\n    .rotate-button.left-highlight {\n        border-left: 5px solid #0059b3;\n    }\n</style>\n    <h2>Image Viewer Reportv2</h2>\n\n    <div data-bind=\"template: { afterRender: onPtmViewerRendered }\">\n        <div id=\"ptmViewer\" style=\"width: 100%; height: 500px; margin: 20px 0; border: 1px solid #ccc;\"></div>\n    </div>\n\n    <!--ko if: hasProvisionalData() && (editorContext === false) -->\n    <div class=\"report-provisional-flag\">This resource has provisional edits (not displayed in this report) that are pending review</div>\n    <!--/ko-->\n    <!--ko if: hasProvisionalData() && (editorContext === true && report.userisreviewer === true) -->\n    <div class=\"report-provisional-flag\">This resource has provisional edits (not displayed in this report) that are pending review</div>\n    <!--/ko-->\n    <!--ko if: hasProvisionalData() && (editorContext === true && report.userisreviewer === false) -->\n    <div class=\"report-provisional-flag\">This resource has provisional edits that are pending review</div>\n    <!--/ko-->\n\n    <div class=\"rp-report-section relative rp-report-section-root\">\n        <div class=\"rp-report-section-title\">\n            <!-- ko foreach: { data: report.cards, as: 'card' } -->\n                <!-- ko if: card && card.tiles && ko.unwrap(card.tiles).length > 0 -->\n                <!-- ko if: \\$index() !== 0 --><hr class=\"rp-tile-separator\"><!-- /ko -->\n                <div class=\"rp-card-section\">\n                    <!-- ko component: {\n                        name: card.model && card.model.cardComponentLookup && card.model.component_id() ? card.model.cardComponentLookup[card.model.component_id()].componentname : 'default-card',\n                        params: {\n                            state: 'report',\n                            preview: \\$parent.report.preview,\n                            card: card,\n                            pageVm: \\$root,\n                            hideEmptyNodes: \\$parent.hideEmptyNodes\n                        }\n                    } --> <!-- /ko -->\n                </div>\n                <!-- /ko -->\n            <!-- /ko -->\n        </div>\n    </div>\n\n    \n    \n    \n    <div class=\"rp-report-section relative report-related-resources\">\n        <div class=\"rp-report-section-title\">\n            <div class=\"h4 rp-section-title\"><span data-bind=\"text: \\$root.translations.relatedResources\"></span></div>\n        </div>\n        \n        <!-- ko foreach: { data: Object.values(report.relatedResourcesLookup()), as: 'resourceData' } -->\n        <!-- ko if: resourceData.totalRelatedResources > 0 || !\\$parent.hideEmptyNodes() -->\n        <div class=\"h5 rp-tile-title\">\n            <span class=\"rp-tile-title-float\" data-bind=\"text: resourceData.name\"></span>\n        </div>\n\n        <div class=\"rp-card-section\">\n            <!-- ko foreach: { data: resourceData.loadedRelatedResources(), as: 'relatedResource' } -->\n            <div class=\"rp-report-container-tile\">\n                <div class=\"row rp-report-tile\">\n                    <dl class=\"dl-horizontal\">\n                        <dt><a data-bind=\"text: relatedResource.displayName, attr: {href: relatedResource.link}\"></a></dt>\n                        <!-- ko if: relatedResource.relationship -->\n                        <dd data-bind=\"text: '( ' + relatedResource.relationship + ' )'\"></dd>\n                        <!-- /ko -->\n                    </dl>\n                </div>\n            </div>\n            <!-- /ko -->\n\n            <!-- ko if: resourceData.paginator() && resourceData.paginator().has_next -->\n            <button class=\"btn btn-primary\" data-bind=\"click: \\$parent.report.getRelatedResources.bind(\\$parent.report, false)\">\n                <span data-bind=\"text: \\$root.translations.loadMore\"></span>\n                <span data-bind=\"text: '(' + resourceData.remainingResources() + ')'\"></span>\n            </button>\n\n            <button class=\"btn btn-primary\" data-bind=\"click: \\$parent.report.getRelatedResources.bind(\\$parent.report, true)\">\n                <span data-bind=\"text: \\$root.translations.loadAll\"></span>\n                <span data-bind=\"text: '(' + (resourceData.totalRelatedResources - resourceData.loadedRelatedResources().length) + ')'\"></span>\n            </button>\n            <!-- /ko -->\n                \n            <!--ko if: resourceData.totalRelatedResources === 0 -->\t\n            <div class=\"rp-report-container-tile\">\t\n                <div class=\"row rp-report-tile rp-no-data\"><span data-bind=\"text: \\$root.translations.noRelationshipsAdded\"></span></div>\t\n            </div>\t\n            <!--/ko-->\n        </div>\n        <!-- /ko -->\n        <!-- /ko -->    \n    </div>  \n    \n\n    \n    \n</div>\n\n<!-- /ko -->\n\n<!-- ko if: \\$data.summary -->\n\n<div class=\"relative report-title-bar\">\n\n    <!-- Title Block -->\n    <div class=\"report-toolbar-preview ep-form-toolbar\">\n        <h4 class=\"report-toolbar-title\"><span data-bind=\"text: report.get('name')\"></span> - <span data-bind=\"text: report.get('displayname') \"></span></h4>\n\n        <!-- Tools -->\n        <div class=\"ep-form-toolbar-tools mar-no flex\">\n            <p class=\"report-print-date\">\n                <span data-bind=\"text: \\$root.translations.reportDate\"></span>\n                <span data-bind=\"text: reportDate\"></span>\n            </p>\n        </div>\n    </div>\n</div>\n\n<div class=\"rp-report-container-preview\">\n    <div class=\"rp-report-section relative rp-report-section-root\">\n        <div class=\"rp-report-section-title\">\n            <!-- ko if: report.cards.length > 0 -->\n                <!--ko let: { card: report.cards[0] }-->\n                <div class=\"rp-card-section\">\n                    <!-- ko component: {\n                        name: card.model.cardComponentLookup[card.model.component_id()].componentname,\n                        params: {\n                        state: 'report',\n                        preview: report.preview,\n                        card: card,\n                        pageVm: \\$root\n                    }\n                    } --> <!-- /ko -->\n                </div>\n                <!--/ko-->\n            <!-- /ko -->\n        </div>\n    </div>\n</div>\n\n<!-- /ko -->\n<!-- end of not configForm -->\n<!-- /ko -->\n\n\n<!-- ko if: \\$data.configForm && (\\$data.configType === 'header') -->\n\n\n<!-- /ko -->\n`;\n// Exports\nmodule.exports = code;\n\n//# sourceURL=webpack://afs_plocal/./afs_plocal/templates/views/report-templates/viewer_report.htm?\n}");
 
 /***/ }),
 
@@ -1568,7 +1568,53 @@ eval("{/* module decorator */ module = __webpack_require__.nmd(module);\n/*\n Ve
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/ensure chunk */
+/******/ 	(() => {
+/******/ 		__webpack_require__.f = {};
+/******/ 		// This file contains only the entry chunk.
+/******/ 		// The chunk loading function for additional chunks
+/******/ 		__webpack_require__.e = (chunkId) => {
+/******/ 			return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 				__webpack_require__.f[key](chunkId, promises);
+/******/ 				return promises;
+/******/ 			}, []));
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get javascript chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.u = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return "js/" + chunkId + ".chunk.js";
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/get mini-css chunk filename */
+/******/ 	(() => {
+/******/ 		// This function allow to reference async chunks
+/******/ 		__webpack_require__.miniCssF = (chunkId) => {
+/******/ 			// return url for filenames based on template
+/******/ 			return undefined;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -1586,6 +1632,63 @@ eval("{/* module decorator */ module = __webpack_require__.nmd(module);\n/*\n Ve
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/load script */
+/******/ 	(() => {
+/******/ 		var inProgress = {};
+/******/ 		var dataWebpackPrefix = "afs_plocal:";
+/******/ 		// loadScript function to load a script via script tag
+/******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
+/******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
+/******/ 			var script, needAttach;
+/******/ 			if(key !== undefined) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				for(var i = 0; i < scripts.length; i++) {
+/******/ 					var s = scripts[i];
+/******/ 					if(s.getAttribute("src") == url || s.getAttribute("data-webpack") == dataWebpackPrefix + key) { script = s; break; }
+/******/ 				}
+/******/ 			}
+/******/ 			if(!script) {
+/******/ 				needAttach = true;
+/******/ 				script = document.createElement('script');
+/******/ 		
+/******/ 				script.charset = 'utf-8';
+/******/ 				script.timeout = 120;
+/******/ 				if (__webpack_require__.nc) {
+/******/ 					script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 				}
+/******/ 				script.setAttribute("data-webpack", dataWebpackPrefix + key);
+/******/ 		
+/******/ 				script.src = url;
+/******/ 			}
+/******/ 			inProgress[url] = [done];
+/******/ 			var onScriptComplete = (prev, event) => {
+/******/ 				// avoid mem leaks in IE.
+/******/ 				script.onerror = script.onload = null;
+/******/ 				clearTimeout(timeout);
+/******/ 				var doneFns = inProgress[url];
+/******/ 				delete inProgress[url];
+/******/ 				script.parentNode && script.parentNode.removeChild(script);
+/******/ 				doneFns && doneFns.forEach((fn) => (fn(event)));
+/******/ 				if(prev) return prev(event);
+/******/ 			}
+/******/ 			var timeout = setTimeout(onScriptComplete.bind(null, undefined, { type: 'timeout', target: script }), 120000);
+/******/ 			script.onerror = onScriptComplete.bind(null, script.onerror);
+/******/ 			script.onload = onScriptComplete.bind(null, script.onload);
+/******/ 			needAttach && document.head.appendChild(script);
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
 /******/ 		__webpack_require__.nmd = (module) => {
@@ -1595,12 +1698,107 @@ eval("{/* module decorator */ module = __webpack_require__.nmd(module);\n/*\n Ve
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		__webpack_require__.p = "/static/";
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"reports/viewer_report": 0
+/******/ 		};
+/******/ 		
+/******/ 		__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 				// JSONP chunk loading for javascript
+/******/ 				var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 				if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 		
+/******/ 					// a Promise means "currently loading".
+/******/ 					if(installedChunkData) {
+/******/ 						promises.push(installedChunkData[2]);
+/******/ 					} else {
+/******/ 						if(true) { // all chunks have JS
+/******/ 							// setup Promise in chunk cache
+/******/ 							var promise = new Promise((resolve, reject) => (installedChunkData = installedChunks[chunkId] = [resolve, reject]));
+/******/ 							promises.push(installedChunkData[2] = promise);
+/******/ 		
+/******/ 							// start chunk loading
+/******/ 							var url = __webpack_require__.p + __webpack_require__.u(chunkId);
+/******/ 							// create error before stack unwound to get useful stacktrace later
+/******/ 							var error = new Error();
+/******/ 							var loadingEnded = (event) => {
+/******/ 								if(__webpack_require__.o(installedChunks, chunkId)) {
+/******/ 									installedChunkData = installedChunks[chunkId];
+/******/ 									if(installedChunkData !== 0) installedChunks[chunkId] = undefined;
+/******/ 									if(installedChunkData) {
+/******/ 										var errorType = event && (event.type === 'load' ? 'missing' : event.type);
+/******/ 										var realSrc = event && event.target && event.target.src;
+/******/ 										error.message = 'Loading chunk ' + chunkId + ' failed.\n(' + errorType + ': ' + realSrc + ')';
+/******/ 										error.name = 'ChunkLoadError';
+/******/ 										error.type = errorType;
+/******/ 										error.request = realSrc;
+/******/ 										installedChunkData[1](error);
+/******/ 									}
+/******/ 								}
+/******/ 							};
+/******/ 							__webpack_require__.l(url, loadingEnded, "chunk-" + chunkId, chunkId);
+/******/ 						}
+/******/ 					}
+/******/ 				}
+/******/ 		};
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		// no on chunks loaded
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 		
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunkafs_plocal"] = self["webpackChunkafs_plocal"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
 /************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./afs_plocal/media/js/reports/custom_report.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./afs_plocal/media/js/reports/viewer_report.js");
 /******/ 	
 /******/ 	return __webpack_exports__;
 /******/ })()

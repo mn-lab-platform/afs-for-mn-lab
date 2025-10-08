@@ -209,7 +209,14 @@ TEMPLATES = build_templates_config(
 )
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'labmn.cenagis.edu.pl',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://labmn.cenagis.edu.pl',
+]
+
 
 SYSTEM_SETTINGS_LOCAL_PATH = os.path.join(APP_ROOT, 'system_settings', 'System_Settings.json')
 WSGI_APPLICATION = 'afs_plocal.wsgi.application'

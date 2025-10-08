@@ -1,0 +1,126 @@
+from django.http import JsonResponse
+from django.views import View
+import iiif_prezi3 as prezi
+from pydantic import BaseModel
+from typing import List
+
+class RtiManifestGeneratorInput(BaseModel):
+    """
+    urls are expected WITHOUT trailing forward slash (/)
+    """
+    manifest_base_url: str
+    iiif_server_base_url: str
+    group_id: str
+    bias: List[float]  
+    scale: List[float]
+    height: int
+    width: int
+
+class RtiManifestView(View):
+    def get(self, request):
+        try:
+            input_data = RtiManifestGeneratorInput(
+                manifest_base_url=request.build_absolute_uri('/')[:-1],
+                iiif_server_base_url="http://localhost:8183/iiif/3",
+                group_id="test",
+                bias=[0.0, 0.0, 0.0, -0.0971946, 0.483944, 0.452197, 0.593371, 0.519337, 0.619937],
+                scale=[1.0, 1.0, 1.0, 3.07334, 3.40604, 3.24229, 5.97029, 5.84329, 5.88425],
+                height=1388,
+                width=1410
+            )
+            manifest = self._generate_rti_manifest(input_data).dict(exclude_none=True)
+
+            response = JsonResponse(manifest) 
+            response["Access-Control-Allow-Origin"] = "*"
+            return response
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    def _generate_rti_manifest(self, input_data: RtiManifestGeneratorInput) -> prezi.Manifest:
+        manifest = prezi.Manifest(
+            id=f"{input_data.manifest_base_url}/{input_data.group_id}/manifest",
+            label={ "en": [ f"Visualization of {input_data.group_id}" ] },
+            metadata=[
+                prezi.KeyValueString(
+                    label=prezi.LngString(__root__={
+                        "en": [ "PTM Bias Coefficients" ] 
+                    }),
+                    value=prezi.LngString(__root__={
+                        "none": [",".join(str(x) for x in input_data.bias)]
+                    })
+                ),
+                prezi.KeyValueString(
+                    label=prezi.LngString(__root__={
+                        "en": [ "PTM Scale Coefficients" ] 
+                    }),
+                    value=prezi.LngString(__root__={
+                        "none": [",".join(str(x) for x in input_data.scale)]
+                    })
+                )
+            ],
+            items=[
+                prezi.Canvas(
+                    id=f"{input_data.manifest_base_url}/{input_data.group_id}/canvas/observe",
+                    height=input_data.height,
+                    width=input_data.width,
+                    label={ "en": [ f"RTI obverse visualization of {input_data.group_id}" ] },
+                    items=[
+                        prezi.AnnotationPage(
+                            id=f"{input_data.manifest_base_url}/{input_data.group_id}/annopage/observe",
+                            items=[
+                                prezi.Annotation(
+                                    id=f"{input_data.manifest_base_url}/{input_data.group_id}/annopage/observe/0",
+                                    target=f"{input_data.manifest_base_url}/{input_data.group_id}/canvas/observe",
+                                    motivation="painting",
+                                    body=prezi.AnnotationBody(
+                                        id=f"{input_data.iiif_server_base_url}/plane_0.jpg/full/max/0/default.jpg",
+                                        type="Image",
+                                        label={ "en": [ "Plane 0 (Chromaticity)" ] },
+                                        format=prezi.Format(__root__="image/jpeg"),
+                                        service=prezi.ServiceV3(
+                                            id=f"{input_data.iiif_server_base_url}/plane_0.jpg",
+                                            type="ImageService3",
+                                            profile="level1"
+                                        )
+                                    )
+                                ),
+                                prezi.Annotation(
+                                    id=f"{input_data.manifest_base_url}/{input_data.group_id}/annopage/observe/1",
+                                    target=f"{input_data.manifest_base_url}/{input_data.group_id}/canvas/observe",
+                                    motivation="painting",
+                                    body=prezi.AnnotationBody(
+                                        id=f"{input_data.iiif_server_base_url}/plane_1.jpg/full/max/0/default.jpg",
+                                        type="Image",
+                                        label={ "en": [ "Plane 1 (Linear Coefficients)" ] },
+                                        format=prezi.Format(__root__="image/jpeg"),
+                                        service=prezi.ServiceV3(
+                                            id=f"{input_data.iiif_server_base_url}/plane_1.jpg",
+                                            type="ImageService3",
+                                            profile="level1"
+                                        )
+                                    )
+                                ),
+                                prezi.Annotation(
+                                    id=f"{input_data.manifest_base_url}/{input_data.group_id}/annopage/observe/2",
+                                    target=f"{input_data.manifest_base_url}/{input_data.group_id}/canvas/observe",
+                                    motivation="painting",
+                                    body=prezi.AnnotationBody(
+                                        id=f"{input_data.iiif_server_base_url}/plane_2.jpg/full/max/0/default.jpg",
+                                        type="Image",
+                                        label={ "en": [ "Plane 2 (Quadratic Coefficients)" ] },
+                                        format=prezi.Format(__root__="image/jpeg"),
+                                        service=prezi.ServiceV3(
+                                            id=f"{input_data.iiif_server_base_url}/plane_2.jpg",
+                                            type="ImageService3",
+                                            profile="level1"
+                                        )
+                                    )
+                                )
+                            ]
+                        )
+                    ]
+                )
+            ]
+        )
+        return manifest
