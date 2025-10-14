@@ -1,0 +1,8 @@
+{
+    "name": "Custom digital resource report",
+    "componentid": "aee56c3a-44cf-4ab2-a5fb-6c51cda7b767",
+    "component": "reports/custom_digital_resource",
+    "componentname": "custom_digital_resource",
+    "description": "Custom digital resource report.",
+    "defaultconfig": {}
+}
