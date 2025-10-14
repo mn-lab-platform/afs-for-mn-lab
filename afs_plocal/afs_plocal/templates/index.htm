@@ -56,7 +56,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
         {% if app_settings.ACCESSIBILITY_MODE %}
             {% render_bundle 'css/accessibility' 'css' %}
         {% endif %}
+        <!-- <style>
+        .slide-img-container img {
+            object-fit: fill; /* Shows full image, may add letterboxing */
+            width: 100%;
+            height: 100%;
+        }
+    </style> -->
     {% endblock css%}
+    <link href="{% static 'css/project.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -66,21 +74,20 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
     <!--=== Header ===-->
     <header>
         <div class="v5-splash-navbar navbar">
-            <div class="container-fluid">
-                <div class="navbar-header">
+            <div class="container-fluid" style="display: flex; align-items: center; justify-content: right;">
+                <div class="navbar-header" style="margin-right: auto">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar" aria-expanded="false" aria-controls="myNavbar">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
                     <div class="relative nav-brand-container">
-                        <div class="navbar-brand-v5-icon-container">
-                            <img class="navbar-brand-v5-icon" src="{% webpack_static 'img/landing/Arches_logo_white.png' %}" alt="{% trans 'Arches Logo' %}">
-                        </div>
+                        <img class="landing-brand-icon" 
+                            src="{% webpack_static 'img/landing/mare_nostrum_logo.png' %}" 
+                            alt="{% trans 'Mare Nostrum Logo' %}">
                         <div class="application-name">
-                            <h1>{% blocktrans %}Arches | {{version}}{% endblocktrans %}</h1>
+                            <h1>Arches For Mare Nostrum</h1>
                         </div>
                     </div>
                 </div>
@@ -135,195 +142,34 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
         <article>
             <!-- Intro Section -->
             <section id="info-block-0" class="app-info-block intro-section relative">
-                <!-- Vertical Nav -->
-                <nav id="cd-vertical-nav" class="vertical-nav-container" aria-label="{% trans 'Page Navigation' %}">
-                    <ul class="vertical-nav-list">
-                        <li class="active">
-                            <a class="vertical-nav-list-link" href="#info-block-0" data-number="1" aria-label="{% trans 'Go to the top of the page' %}"
-                                data-bind="click: function() { document.querySelector('#info-block-0').focus; }"
-                            >
-                                <span class="vertical-nav-list-ref">{% trans "Home" %}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="vertical-nav-list-link" href="#info-block-1" data-number="2" aria-label="{% trans 'Go to the fast section' %}">
-                                <span class="vertical-nav-list-ref">{% trans "Fast" %}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="vertical-nav-list-link" href="#info-block-2" data-number="3" aria-label="{% trans 'Go to the workflows section' %}">
-                                <span class="vertical-nav-list-ref">{% trans "Workflows" %}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="vertical-nav-list-link" href="#info-block-3" data-number="4" aria-label="{% trans 'Go to the search tools section' %}">
-                                <span class="vertical-nav-list-ref">{% trans "Search Tools" %}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-
                 <!-- Slider - Start -->
                 <div class="home-slider">
                     <div class="slide-img-container">
-                        <img src="{% webpack_static 'img/landing/landing-primary.jpg' %}" alt="" aria-describedby="slide1-attribution">
+                        <img src="{% webpack_static 'img/landing/model.jpg' %}" alt="" aria-describedby="slide1-attribution">
                         <div class="slide-caption">
-                            <h2>{% blocktrans %}Arches {{version}}{% endblocktrans %}</h2>
-                            <p>{% trans "A web and mobile platform for" %}</p>
-                            <p>{% trans "managing your most important resource information" %}</p>
+                            <h2>{% blocktrans %}Arches For Mare Nostrum{% endblocktrans %}</h2>
                         </div>
-                        <div id="slide1-attribution" class="slide-img-attribution">{% trans "Image courtesy of Luis Alfonso Orellana" %}</div>
+                        <div id="slide1-attribution" class="slide-img-attribution">{% trans "Source: Mare Nostrum Lab Website" %}</div>
                     </div>
                     <div class="slide-img-container">
-                        <img src="{% webpack_static 'img/landing/bhutan_tigersnest_lr.jpg' %}" alt="" aria-describedby="slide2-attribution">
+                        <img src="{% webpack_static 'img/landing/tacheometer.jpg' %}" alt="" aria-describedby="slide2-attribution">
                         <div class="slide-caption">
-                            <h2>{% blocktrans %}Arches {{version}}{% endblocktrans %}</h2>
-                            <p>{% trans "A web and mobile platform for" %}</p>
-                            <p>{% trans "managing your most important resource information" %}</p>
+                            <h2>{% blocktrans %}Arches For Mare Nostrum{% endblocktrans %}</h2>
                         </div>
-                        <div id="slide2-attribution" class="slide-img-attribution">{% trans "Taktsang Palphug Monastery (also known as Paro Takstang or Tiger's Nest Monastery), Bhutan" %}</div>
+                        <div id="slide2-attribution" class="slide-img-attribution">{% trans "Source: Mare Nostrum Lab Website" %}</div>
                     </div>
                     <div class="slide-img-container">
-                        <img src="{% webpack_static 'img/landing/potala_palace.jpg' %}" alt="" aria-describedby="slide3-attribution">
+                        <img src="{% webpack_static 'img/landing/archeology.jpg' %}" alt="" aria-describedby="slide3-attribution">
                         <div class="slide-caption">
-                            <h2>{% blocktrans %}Arches {{version}}{% endblocktrans %}</h2>
-                            <p>{% trans "A web and mobile platform for" %}</p>
-                            <p>{% trans "managing your most important resource information" %}</p>
+                            <h2>{% blocktrans %}Arches For Mare Nostrum{% endblocktrans %}</h2>
                         </div>
-                        <div id="slide3-attribution" class="slide-img-attribution">{% trans "Potala Palace in Lhasa, Tibet" %}</div>
+                        <div id="slide3-attribution" class="slide-img-attribution">{% trans "Source: Mare Nostrum Lab Website" %}</div>
                     </div>
                 </div>
                 <!-- Slider - End -->
 
-                <!-- Down button -->
-                <a href="#info-block-1" class="down-button" aria-label="{% trans 'Go to content' %}"><i class="fa fa-angle-down down-button-icon"></i></a>
-
             </section>
             <!-- End Intro Section -->
-
-            <!-- Info Block 1 -->
-            <section id="info-block-1" class="app-info-block relative">
-                <div>
-
-                    <!-- Heading Info -->
-                    <div class="sub-section">
-                        <div class="col-lg-7">
-                            <div class="app-info-block-intro text-center">
-                                <h2 class="app-info-block-header">{% trans "Fast" %}</h2>
-                                <h3 class="app-info-block-title">{% trans "Deploy Applications Rapidly" %}</h3>
-                                <p class="app-info-block-text">
-                                    {% trans "Design custom information management applications in hours.  Build your databases with Arches Designer, then configure your interface all without having to write any code." %}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="splash-img">
-                        <img src="{% webpack_static 'img/landing/imac_designer.png' %}"  alt="{% trans 'Arches Designer' %}">
-                    </div>
-
-                    <!-- Sub-section -->
-                    <div class="row app-info-sub-block">
-
-                        <!-- Arches Data Type Block -->
-                        <div class="col-lg-6">
-                            <div class="sub-block-container">
-                                <h3 class="app-info-block-title">{% trans "Interface Manager" %}</h3>
-                                <p class="sub-block-description">
-                                    {% trans "Arches automatically creates data entry forms based on your data models.  Use Arches' Card Manager to configure the look and feel of your data entry UI." %}
-                                </p>
-                                <img class="sub-block-image" src="{% webpack_static 'img/landing/card_manager.png' %}" alt="{% trans 'Card Manager' %}">
-                            </div>
-                        </div>
-
-                        <!-- Arches Data Type Block -->
-                        <div class="col-lg-6">
-                            <div class="sub-block-container">
-                                <h3 class="app-info-block-title">{% trans "Data Security" %}</h3>
-                                <p class="sub-block-description">
-                                    {% trans "Use Arches' Permissions Manager to set up data access rules for all your user groups and individual accounts.  You can define read/write/delete and no-access permissions." %}
-                                </p>
-                                <img class="sub-block-image" src="{% webpack_static 'img/landing/permissions_manager.png' %}" alt="{% trans 'Permissions Manager' %}">
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- End Sub-section -->
-
-                </div>
-            </section>
-            <!-- End Info Block 1 -->
-
-            <!-- Info Block 2 -->
-            <section id="info-block-2" class="app-info-block relative">
-                <div>
-
-                    <!-- Heading Info -->
-                    <div class="sub-section">
-                        <div class="col-lg-7">
-                            <div class="app-info-block-intro text-center">
-                                <h2 class="app-info-block-header">{% trans "Workflows" %}</h2>
-                                <h3 class="app-info-block-title">{% trans "Orchestrate your data entry" %}</h3>
-                                <p class="app-info-block-text">
-                                    {% trans "Design step-wise data management interfaces that simplify complex editing tasks.  Ensure that everyone enters data completely and consistently" %}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="splash-img">
-                        <img class="sub-block-image" src="{% webpack_static 'img/landing/consultation_workflow.jpg' %}" alt="{% trans 'Arches Workflows' %}">
-                    </div>
-
-                </div>
-            </section>
-            <!-- End Info Block 2 -->
-
-            <!-- Info Block 3 -->
-            <section id="info-block-3" class="app-info-block relative">
-                <div>
-
-                    <!-- Heading Info -->
-                    <div class="sub-section">
-                        <div class="col-lg-7">
-                            <div class="app-info-block-intro text-center">
-                                <h2 class="app-info-block-header">{% trans "Arches Search Tools" %}</h2>
-                                <h3 class="app-info-block-title">{% trans "Find what you're looking for" %}</h3>
-                                <p class="app-info-block-text">
-                                    {% trans "Arches comes with powerful built-in search tools.  Quickly filter large databases with term, geospatial, and time-based search components" %}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="splash-img">
-                        <img class="sub-block-image" src="{% webpack_static 'img/landing/arches_search.png' %}" alt="{% trans 'Arches Search' %}">
-                    </div>
-
-                    <!-- Sub-section -->
-                    <div class="wide-box">
-                        <div class="box-highlight">
-                            <h3 class="app-info-block-header">{% trans "Search Options" %}</h3>
-                            <p>
-                                {% trans "Arches gives you many ways to find precisely the information you need, even if your Arches application contains 10's of millions of records.  In addition to term, thesaurus, geospatial, and temporal filters, Arches provides you with advanced filtering options that support boolean logic, inverses, and many other filtering options." %}
-                            </p>
-                            <br>
-                            <p>
-                                {% trans "Arches' search capabilities also provide for sophisticated data visualizations, including interactive displays of the connections between your data objects using a Force Directed Graph." %}
-                            </p>
-                            <br>
-                            <p>
-                                {% trans "If you're a software developer, you can build on Arches modular search services and create your own filters, reports, and visualizations to best show off your particular dataset." %}
-                            </p>
-
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-            <!-- End Info Block 3 -->
         </article>
     </main>
 
@@ -337,18 +183,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
             <!-- branding column -->
             <div class="col-lg-4">
-                <h2 class="app-footer-heading">{% trans "haylobaylo" %}</h2>
-
+                
+                <img class="landing-brand-icon" 
+                    src="{% webpack_static 'img/landing/mare_nostrum_logo.png' %}" 
+                    alt="{% trans 'Mare Nostrum Logo' %}">
                 <div class="organization-address">
-                  {% trans "Sample Address" %}<br>
-                  {% trans "Getty Conservation Institute" %}<br>
-                  {% trans "1200 Getty Center Drive" %}<br>
-                  {% trans "Los Angeles, CA  90049" %}<br>
+                  <h2 class="app-footer-heading">{% trans "Mare Nostrum Project" %}</h2>  
+                  {% trans "Jagiellonian University" %}<br>
+                  {% trans "Institute of Archeology" %}<br>
+                  {% trans "Gołębia 11" %}<br>
+                  {% trans "31-007 Krakow" %}<br>
+                  {% trans "Poland" %}<br>
                 </div>
             </div>
 
             <!-- Info Column -->
-            <div class="col-lg-8">
+            <div class="col-lg-8" style="margin-top: 70px;">
                 <h2 class="app-footer-heading">{% trans "Guides and Documentation" %}</h2>
 
                 <!-- Links -->

@@ -46,6 +46,7 @@ FILE_TYPES = [
     "xlsx",
     "csv",
     "zip",
+    "nxz",
 ]
 FILENAME_GENERATOR = "arches.app.utils.storage_filename_generator.generate_filename"
 UPLOADED_FILES_DIR = "uploadedfiles"
@@ -93,10 +94,13 @@ KIBANA_CONFIG_BASEPATH = "kibana"  # must match Kibana config.yml setting (serve
 LOAD_DEFAULT_ONTOLOGY = False
 LOAD_PACKAGE_ONTOLOGIES = True
 
+TIME_ZONE = 'Europe/Warsaw'
+USE_TZ = True
+
 # This is the namespace to use for export of data (for RDF/XML for example)
 # It must point to the url where you host your site
 # Make sure to use a trailing slash
-ARCHES_NAMESPACE_FOR_DATA_EXPORT = "http://localhost:8000/"
+ARCHES_NAMESPACE_FOR_DATA_EXPORT = "http://lab.mn.cenagis.edu.pl/"
 
 DATABASES = {
     "default": {
@@ -116,7 +120,7 @@ DATABASES = {
             "MIRROR": None,
             "NAME": None
         },
-        "TIME_ZONE": None,
+        "TIME_ZONE": "Europe/Warsaw",
         "USER": "postgres"
     }
 }
@@ -206,11 +210,11 @@ TEMPLATES = build_templates_config(
 
 
 ALLOWED_HOSTS = [
-    'labmn.cenagis.edu.pl',
+    'lab.mn.cenagis.edu.pl',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://labmn.cenagis.edu.pl',
+    'https://lab.mn.cenagis.edu.pl',
 ]
 
 
@@ -276,7 +280,7 @@ LOGGING = {
 RATE_LIMIT = "5/m"
 
 # Sets default max upload size to 15MB
-DATA_UPLOAD_MAX_MEMORY_SIZE = 15728640
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5368709120
 
 # Unique session cookie ensures that logins are treated separately for each app
 SESSION_COOKIE_NAME = 'afs_plocal'
@@ -316,7 +320,7 @@ GRAPH_MODEL_CACHE_TIMEOUT = None
 
 OAUTH_CLIENT_ID = ''  #'9JCibwrWQ4hwuGn5fu2u1oRZSs9V6gK8Vu8hpRC4'
 
-APP_TITLE = 'Arches | Heritage Data Management'
+APP_TITLE = 'Arches | Mare Nostrum'
 COPYRIGHT_TEXT = 'All Rights Reserved.'
 COPYRIGHT_YEAR = '2019'
 
