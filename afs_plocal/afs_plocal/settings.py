@@ -46,6 +46,7 @@ FILE_TYPES = [
     "xlsx",
     "csv",
     "zip",
+    "txt",
     "nxz",
 ]
 FILENAME_GENERATOR = "arches.app.utils.storage_filename_generator.generate_filename"

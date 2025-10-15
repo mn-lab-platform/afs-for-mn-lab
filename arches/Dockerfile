@@ -162,7 +162,7 @@ RUN pip install supervisor==4.2.1 \
     && pip install tzdata --upgrade \
     && pip install Redis \
     && pip install gunicorn \
-    && pip install arches==7.6.14 \
+    && pip install arches==7.6.15 \
     && pip install pyasynchat \
     && pip install pyasyncore \
     && pip install iiif-prezi3==3.0.0 \
