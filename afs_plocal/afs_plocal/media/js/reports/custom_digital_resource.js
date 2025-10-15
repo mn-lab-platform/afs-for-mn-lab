@@ -13,9 +13,10 @@ define([
     'views/components/reports/scenes/existence',
     'views/components/reports/scenes/substance',
     'views/components/reports/scenes/json',
-    'views/components/reports/scenes/default'
+    'views/components/reports/scenes/default',
+    'reports/custom_report'
 ], function($, _, ko, L, customDigitalResourceTemplate, arches, resourceUtils, reportUtils) {
-
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA')
     console.log("Leaflet loaded:", L);
     console.log("Leaflet version:", L.version);
     return ko.components.register('custom_digital_resource', {
@@ -52,6 +53,8 @@ define([
                 {id: 'description', title: arches.translations.description},
                 {id: 'documentation', title: arches.translations.documentation},
                 {id: 'json', title: 'JSON'},
+                {id: '3d-viewer', title: '3D Viewer'}
+                
             ];
 
             self.filesTable = {
@@ -70,6 +73,8 @@ define([
 
             self.visible = { files: ko.observable(true) }
             self.reportMetadata = ko.observable(params.report?.report_json);
+            console.log(self.reportMetadata)
+            self.report = ko.observable(params.report)
             self.resource = ko.observable(self.reportMetadata()?.resource);
             self.displayname = ko.observable(ko.unwrap(self.reportMetadata)?.displayname);
             self.activeSection = ko.observable('name');
@@ -231,15 +236,23 @@ define([
             self.nameSummary = ko.observable();
             self.statementsSummary = ko.observable();
 
-            const thumbnailUrl = arches.urls.thumbnail(params.report.report_json.resourceinstanceid);
+            // Add safety check for thumbnail function
             self.thumbnail = ko.observable();
 
-            fetch(thumbnailUrl, {method: 'HEAD'}).then(resp => { 
-                if (resp.ok) {
-                    self.thumbnail(thumbnailUrl);
-                }
-            });
-
+            if (arches.urls && typeof arches.urls.thumbnail === 'function') {
+                const thumbnailUrl = arches.urls.thumbnail(params.report.report_json.resourceinstanceid);
+                
+                fetch(thumbnailUrl, {method: 'HEAD'}).then(resp => { 
+                    if (resp.ok) {
+                        self.thumbnail(thumbnailUrl);
+                    }
+                }).catch(err => {
+                    console.log('Thumbnail fetch failed:', err);
+                    // Silently fail - no thumbnail will be shown
+                });
+            } else {
+                console.log('arches.urls.thumbnail function not available - skipping thumbnail');
+            }
             const nameData = [self.getRawNodeValue(self.resource()?.name)];
             if (nameData) {
                 self.nameSummary(nameData.map(x => {

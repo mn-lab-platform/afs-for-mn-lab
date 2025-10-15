@@ -1,341 +1,313 @@
 define([
     'knockout',
     'viewmodels/report',
-    'templates/views/report-templates/custom_report.htm'
-], function(ko, ReportViewModel, customReportTemplate) {
-    console.log('Custom report component loading...');
-    
+    'templates/views/report-templates/custom_report.htm',
+    'jquery'
+], function(ko, ReportViewModel, customReportTemplate, $) {
+    console.log('[custom_report] component loading...');
+
+    var HOP_BASE = window.HOP_BASE || '/static/3dhop/js_sors/';
+    var HOP_SCRIPTS = [
+        'spidergl.js',              
+        'presenter.js',
+        'nexus.js',
+        'ply.js',
+        'trackball_turntable.js',
+
+        'init.js',
+        'helpers.js'
+    ].map(function(s){ return HOP_BASE + s; });
+
+    // singleton promise — brak podwójnego ładowania między zakładkami
+    function ensure3DHOP() {
+        if (typeof window.Presenter !== 'undefined') {
+            console.log('[custom_report] 3DHOP already ready (Presenter present).');
+            return Promise.resolve();
+        }
+        if (window.__HOP_PROM) {
+            console.log('[custom_report] reusing existing 3DHOP load promise.');
+            return window.__HOP_PROM;
+        }
+
+        //  jQuery  globalnie 
+        if (typeof window.jQuery === 'undefined' && typeof $ !== 'undefined') {
+            window.jQuery = window.$ = $;
+        }
+
+        console.log('[custom_report] loading 3DHOP from', HOP_BASE);
+        window.__HOP_PROM = HOP_SCRIPTS.reduce(function(p, src) {
+            return p.then(function(){
+                return new Promise(function(resolve, reject){
+                    if (document.querySelector('script[src="'+src+'"]')) {
+                        console.log('[custom_report] script already in DOM:', src);
+                        resolve(); return;
+                    }
+                    var s = document.createElement('script');
+                    s.src = src;
+                    s.async = false;
+                    s.onload = function(){ console.log('[custom_report] loaded:', src); resolve(); };
+                    s.onerror = function(){ console.error('[custom_report] failed:', src); reject(new Error('Failed '+src)); };
+                    document.head.appendChild(s);
+                });
+            });
+        }, Promise.resolve()).then(function(){
+            if (typeof window.Presenter === 'undefined') {
+                throw new Error('3DHOP not ready after load (Presenter undefined)');
+            }
+        }).catch(function(e){
+            delete window.__HOP_PROM; // pozwól spróbować ponownie następnym razem
+            throw e;
+        });
+
+        return window.__HOP_PROM;
+    }
+
     return ko.components.register('custom_report', {
         viewModel: function(params) {
-            console.log('Custom report viewModel initializing with params:', params);
+            console.log('[custom_report] viewModel init with params:', params);
+
+            if (params && params.configForm === true) {
+                console.log('[custom_report] configForm=true → skip viewer init (editor mode).');
+                ReportViewModel.apply(this, [params]);
+                return;
+            }
+
             var self = this;
             var presenter = null;
-            
+
             params.configKeys = params.configKeys || [];
-            console.log('Config keys set:', params.configKeys);
-            
+            console.log('[custom_report] config keys:', params.configKeys);
+
             ReportViewModel.apply(this, [params]);
-            console.log('ReportViewModel applied, self.report:', this.report);
-            self.are3DHopScriptsLoaded = function() {
-                return typeof window.Presenter !== 'undefined' && 
-                       typeof window.init3dhop === 'function';
-            };            
-            // Load 3DHOP scripts dynamically
-            self.load3DHopScripts = function() {
-                // Jeśli skrypty są już załadowane, nie ładuj ponownie
-                if (self.are3DHopScriptsLoaded()) {
-                    console.log('3DHOP scripts already loaded');
-                    return Promise.resolve();
+            console.log('[custom_report] ReportViewModel applied. report:', this.report);
+
+            // === Model URL resolver (preferujemy 'path') ===
+            // Jeśli kiedyś zmienisz MEDIA_URL, ustaw window.MEDIA_URL globalnie.
+            // U Ciebie teraz to '/files/'.
+            const MEDIA = (window.MEDIA_URL || '/files/').replace(/\/+$/, '/') ;
+
+            self.resolveModelUrl = function () {
+                console.log('[custom_report] Resolving model URL (File/file_details, path-first)…');
+
+                const res = params?.report?.report_json?.resource;
+                if (!res) {
+                    console.warn('[custom_report] report_json.resource missing');
+                    return null;
                 }
 
-                return new Promise(function(resolve, reject) {
-                    console.log('Loading 3DHOP scripts dynamically...');
-                    
-                    var scripts = [
-                        '/static/3dhop/js_sors/spidergl.js',
-                        '/static/3dhop/js_sors/presenter.js',
-                        '/static/3dhop/js_sors/nexus.js',
-                        '/static/3dhop/js_sors/ply.js',
-                        '/static/3dhop/js_sors/trackball_turntable.js',
-                        '/static/3dhop/js_sors/trackball_pantilt.js',
-                        '/static/3dhop/js_sors/trackball_rail.js',
-                        '/static/3dhop/js_sors/init.js',
-                        '/static/3dhop/js_sors/helpers.js'
-                    ];
-                    
-                    function loadScript(src) {
-                        return new Promise(function(resolve, reject) {
-                            // Sprawdź czy skrypt już istnieje
-                            var existingScript = document.querySelector('script[src="' + src + '"]');
-                            if (existingScript) {
-                                console.log('Script already loaded:', src);
-                                resolve();
-                                return;
-                            }
+                // Zbierz wszystkie file_details ze wszystkich bloków "File"
+                const details = Array.isArray(res.File)
+                    ? res.File.flatMap(f => f?.file_details || [])
+                    : [];
 
-                            var script = document.createElement('script');
-                            script.src = src;
-                            script.onload = function() {
-                                console.log('Loaded:', src);
-                                resolve();
-                            };
-                            script.onerror = function() {
-                                console.error('Failed to load:', src);
-                                reject(new Error('Failed to load script: ' + src));
-                            };
-                            document.head.appendChild(script);
-                        });
-                    }
-                    
-                    var loadSequentially = function(index) {
-                        if (index >= scripts.length) {
-                            console.log('All 3DHOP scripts loaded');
-                            resolve();
-                            return;
-                        }
-                        
-                        loadScript(scripts[index])
-                            .then(function() {
-                                loadSequentially(index + 1);
-                            })
-                            .catch(reject);
-                    };
-                    
-                    loadSequentially(0);
-                });
+                if (!details.length) {
+                    console.warn('[custom_report] No file_details[] in resource.File');
+                    return null;
+                }
+
+                // Wybierz pierwszy wpis, w którym JAKIEKOLWIEK z pól kończy się na .nxz/.nxs/.ply
+                const is3d = s => /\.(nxz|nxs|ply)$/i.test(String(s || '').toLowerCase());
+                const pick = details.find(d => is3d(d?.path) || is3d(d?.url) || is3d(d?.name)) || details[0];
+
+                // 1) PRIORYTET: path → MEDIA + path (bo path ma rozszerzenie i stabilną relację do MEDIA_URL)
+                if (pick?.path) {
+                    const url = MEDIA + String(pick.path).replace(/^\/+/, '');
+                    console.log('[custom_report] Using path →', url);
+                    return url; // np. /files/uploadedfiles/gargo.nxz
+                }
+
+                // 2) Fallback: url z rozszerzeniem (czasem url bywa bez rozszerzenia, wtedy pomijamy)
+                if (pick?.url && is3d(pick.url)) {
+                    console.log('[custom_report] Using url with extension →', pick.url);
+                    return pick.url;
+                }
+
+                // 3) Last resort: sama nazwa → MEDIA + 'uploadedfiles/' + name
+                if (pick?.name && is3d(pick.name)) {
+                    const url = MEDIA + 'uploadedfiles/' + String(pick.name).replace(/^\/+/, '');
+                    console.log('[custom_report] Using name →', url);
+                    return url;
+                }
+
+                console.warn('[custom_report] Could not build model URL from file_details');
+                return null;
             };
 
-            self.setup3dhop = function() { 
-                console.log('Setting up 3DHOP...');
-                
+
+            // Minimalna detekcja — wystarczy Presenter
+            self.are3DHopScriptsLoaded = function() {
+                var ok = (typeof window.Presenter !== 'undefined');
+                console.log('[custom_report] are3DHopScriptsLoaded =', ok, 'Presenter:', !!window.Presenter, 'init3dhop:', !!window.init3dhop);
+                return ok;
+            };
+
+            self.load3DHopScripts = function() {
+                return ensure3DHOP();
+            };
+
+            // ===== Ustawienie sceny 3DHOP =====
+            self.setup3dhop = function() {
+                console.log('[custom_report] Setting up 3DHOP...');
+
                 if (typeof window.Presenter === 'undefined') {
-                    console.error('3DHOP Presenter not loaded');
+                    console.error('[custom_report] 3DHOP Presenter not loaded');
                     return;
                 }
-                
-                console.log('Creating new Presenter instance...');
-                presenter = new window.Presenter("draw-canvas");
-                
-                // Ustaw globalną zmienną presenter dla kompatybilności z init.js
-                window.presenter = presenter;
 
-                console.log('Presenter created:', presenter);
+                // Resolve once & cache
+                if (!self.modelUrl) self.modelUrl = self.resolveModelUrl();
 
-                console.log('Setting scene...');
+                if (!self.modelUrl) {
+                    console.error('[custom_report] No model URL found. Set params.modelUrl / params.modelNodeId or attach a .nxz/.nxs/.ply to this resource.');
+                    return;
+                }
+
+                console.log('[custom_report] Creating Presenter on #draw-canvas with URL:', self.modelUrl);
+                presenter = new window.Presenter('draw-canvas');
+                window.presenter = presenter; // część helperów oczekuje globalnego presenter
+
+                console.log('[custom_report] Setting scene...');
                 presenter.setScene({
-                    meshes: {
-                        "Gargoyle" : { url: "/static/3dhop/models/gargo.nxz" }
-                    },
-                    modelInstances : {
-                        "Model1" : { mesh : "Gargoyle" } 
-                    },
-                    space: {
-                      centerMode: "scene",
-                      radiusMode: "scene"
-                    },
-                    config : {
-                      showClippingPlanes  : true,
-                      showClippingBorder  : true,
-                      clippingBorderSize  : 0.5,
-                      clippingBorderColor : [0.0, 1.0, 1.0]
+                    meshes: { ResourceModel: { url: self.modelUrl } },
+                    modelInstances: { Model1: { mesh: 'ResourceModel' } },
+                    space: { centerMode: 'scene', radiusMode: 'scene' },
+                    config: {
+                        showClippingPlanes  : true,
+                        showClippingBorder  : true,
+                        clippingBorderSize  : 0.5,
+                        clippingBorderColor : [0.0, 1.0, 1.0]
                     }
                 });
-                console.log('Scene set successfully');
+                console.log('[custom_report] Scene set successfully');
 
                 presenter._onEndPickingPoint = self.onEndPick;
-                presenter._onEndMeasurement = self.onEndMeasure;
-                presenter._onPickedSpot = self.onPickedSpot;
-                presenter._onPickedInstance = self.onPickedInstance;          
-        
+                presenter._onEndMeasurement  = self.onEndMeasure;
+                presenter._onPickedSpot      = self.onPickedSpot;
+                presenter._onPickedInstance  = self.onPickedInstance;
             };
 
+            // ===== Toolbar & callbacki (Twoje, bez zmian istotnych) =====
             self.actionsToolbar = function(action) {
-                console.log('Toolbar action triggered:', action);
-                
-                if(!presenter) {
-                    console.error('Presenter not initialized');
-                    return;
+                console.log('[custom_report] Toolbar action:', action);
+                if (!presenter) { console.error('[custom_report] Presenter not initialized'); return; }
+                if (action == 'home') presenter.resetTrackball();
+                else if (action == 'zoomin') presenter.zoomIn();
+                else if (action == 'zoomout') presenter.zoomOut();
+                else if (action == 'light' || action == 'light_on') {
+                    var on = presenter.isLightTrackballEnabled();
+                    presenter.enableLightTrackball(!on);
+                    console.log('[custom_report] Light trackball ->', !on);
                 }
-                
-                if(action=='home') {
-                    console.log('Resetting trackball...');
-                    presenter.resetTrackball(); 
+                else if (action == 'pick' || action == 'pick_on') {
+                    presenter.enablePickpointMode(!presenter.isPickpointModeEnabled());
+                    self.pickpointSwitch();
                 }
-                else if(action=='zoomin') {
-                    console.log('Zooming in...');
-                    presenter.zoomIn();
+                else if (action == 'measure' || action == 'measure_on') {
+                    presenter.enableMeasurementTool(!presenter.isMeasurementToolEnabled());
+                    self.measureSwitch();
                 }
-                else if(action=='zoomout') {
-                    console.log('Zooming out...');
-                    presenter.zoomOut(); 
+                else if (action == 'hotspot' || action == 'hotspot_on') {
+                    if (typeof window.HOP_ALL !== 'undefined') presenter.toggleSpotVisibility(HOP_ALL, true);
+                    presenter.enableOnHover(!presenter.isOnHoverEnabled());
+                    self.hotspotSwitch();
                 }
-                else if(action=='light' || action=='light_on') {
-                    var currentLightState = presenter.isLightTrackballEnabled();
-                    console.log('Current light trackball state:', currentLightState);
-                    
-                    presenter.enableLightTrackball(!currentLightState);
-                    console.log('Light trackball toggled to:', !currentLightState);
-                }
-                else if(action=='pick' || action=='pick_on') { 
-                    console.log('Toggling pickpoint mode...');
-                    presenter.enablePickpointMode(!presenter.isPickpointModeEnabled()); 
-                    self.pickpointSwitch(); 
-                }
-                else if(action=='measure' || action=='measure_on') { 
-                    console.log('Toggling measurement tool...');
-                    presenter.enableMeasurementTool(!presenter.isMeasurementToolEnabled()); 
-                    self.measureSwitch(); 
-                }
-                else if(action=='hotspot'|| action=='hotspot_on') { 
-                    console.log('Toggling hotspot visibility...');
-                    presenter.toggleSpotVisibility(HOP_ALL, true); 
-                    presenter.enableOnHover(!presenter.isOnHoverEnabled()); 
-                    self.hotspotSwitch(); 
-                }
-                else if(action=='sections' || action=='sections_on') { 
-                    console.log('Toggling sections tool...');
-                    // Toggle sections box visibility
+                else if (action == 'sections' || action == 'sections_on') {
                     $('#sections-box').toggleClass('active');
-                    // Initialize sections if not already done
-                    if (typeof window.sectiontoolReset === 'function') {
-                        window.sectiontoolReset(); 
-                    }
-                    if (typeof window.sectiontoolSwitch === 'function') {
-                        window.sectiontoolSwitch(); 
-                    }
-                } 
+                    if (typeof window.sectiontoolReset === 'function') window.sectiontoolReset();
+                    if (typeof window.sectiontoolSwitch === 'function') window.sectiontoolSwitch();
+                }
             };
 
-            // Add the callback functions
             self.onEndPick = function(point) {
-                // point.toFixed(2) sets the number of decimals when displaying the picked point
-                var x = point[0].toFixed(2);
-                var y = point[1].toFixed(2);
-                var z = point[2].toFixed(2);
-                $('#pickpoint-output').html("[ "+x+" , "+y+" , "+z+" ]");
-                console.log('Point picked:', x, y, z);
+                var x = point[0].toFixed(2), y = point[1].toFixed(2), z = point[2].toFixed(2);
+                $('#pickpoint-output').html('[ '+x+' , '+y+' , '+z+' ]');
+                console.log('[custom_report] Point picked:', x, y, z);
             };
-
             self.onEndMeasure = function(measure) {
-                // measure.toFixed(2) sets the number of decimals when displaying the measure
-                // depending on the model measure units, use "mm","m","km" or whatever you have
-                $('#measure-output').html(measure.toFixed(2) + " mm");
-                console.log('Measurement taken:', measure.toFixed(2) + " mm");
+                $('#measure-output').html(measure.toFixed(2) + ' mm');
+                console.log('[custom_report] Measurement:', measure.toFixed(2) + ' mm');
             };
-
             self.onPickedSpot = function(id) {
-                console.log('Hotspot picked:', id);
-                switch(id) {
-                    case 'Wing'   : alert("Wing Hotspot Clicked"); break;
-                    case 'Sphere' : alert("Basis Hotspot Clicked"); break;
-                }
+                console.log('[custom_report] Hotspot picked:', id);
             };
-
             self.onPickedInstance = function(id) {
-                console.log('Instance picked:', id);
-                switch(id) {
-                    case 'Gargo' : alert("Gargoyle Model Clicked "); break;
-                }
+                console.log('[custom_report] Instance picked:', id);
             };
 
-            // Add switch functions for UI feedback
             self.pickpointSwitch = function() {
-                var isEnabled = presenter.isPickpointModeEnabled();
-                $('#pick').toggleClass('active', isEnabled);
-                console.log('Pickpoint mode:', isEnabled ? 'enabled' : 'disabled');
+                var on = presenter.isPickpointModeEnabled();
+                $('#pick').toggleClass('active', on);
+                console.log('[custom_report] Pickpoint ->', on);
             };
-
             self.measureSwitch = function() {
-                var isEnabled = presenter.isMeasurementToolEnabled();
-                $('#measure').toggleClass('active', isEnabled);
-                console.log('Measurement tool:', isEnabled ? 'enabled' : 'disabled');
+                var on = presenter.isMeasurementToolEnabled();
+                $('#measure').toggleClass('active', on);
+                console.log('[custom_report] Measure ->', on);
             };
-
             self.hotspotSwitch = function() {
-                var isEnabled = presenter.isOnHoverEnabled();
-                $('#hotspot').toggleClass('active', isEnabled);
-                console.log('Hotspot mode:', isEnabled ? 'enabled' : 'disabled');
+                var on = presenter.isOnHoverEnabled();
+                $('#hotspot').toggleClass('active', on);
+                console.log('[custom_report] Hotspot ->', on);
             };
 
             self.bindToolbarEvents = function() {
-                console.log('Binding toolbar events...');
-                
-                $('#home').off('click').on('click', function() { 
-                    console.log('Home button clicked');
-                    self.actionsToolbar('home'); 
-                });
-                $('#zoomin').off('click').on('click', function() { 
-                    console.log('Zoom in button clicked');
-                    self.actionsToolbar('zoomin'); 
-                });
-                $('#zoomout').off('click').on('click', function() { 
-                    console.log('Zoom out button clicked');
-                    self.actionsToolbar('zoomout'); 
-                });
-                $('#light').off('click').on('click', function() { 
-                    console.log('Light button clicked');
-                    self.actionsToolbar('light'); 
-                });
-                $('#pick').off('click').on('click', function() { 
-                    console.log('Pick button clicked');
-                    self.actionsToolbar('pick'); 
-                });
-                $('#measure').off('click').on('click', function() { 
-                    console.log('Measure button clicked');
-                    self.actionsToolbar('measure'); 
-                });
-                $('#hotspot').off('click').on('click', function() { 
-                    console.log('Hotspot button clicked');
-                    self.actionsToolbar('hotspot'); 
-                });
-                
-                // Bind both sections buttons
-                $('#sections').off('click').on('click', function() { 
-                    console.log('Sections button clicked');
-                    if (typeof window.sectiontoolSwitch === 'function') {
-                        window.sectiontoolSwitch();
-                    }
-                });
-                $('#sections_on').off('click').on('click', function() { 
-                    console.log('Sections ON button clicked');
-                    if (typeof window.sectiontoolSwitch === 'function') {
-                        window.sectiontoolSwitch();
-                    }
-                });
-                
-                console.log('Toolbar events bound successfully');
+                console.log('[custom_report] Binding toolbar events...');
+                $('#home').off('click').on('click', function(){ self.actionsToolbar('home'); });
+                $('#zoomin').off('click').on('click', function(){ self.actionsToolbar('zoomin'); });
+                $('#zoomout').off('click').on('click', function(){ self.actionsToolbar('zoomout'); });
+                $('#light').off('click').on('click', function(){ self.actionsToolbar('light'); });
+                $('#pick').off('click').on('click', function(){ self.actionsToolbar('pick'); });
+                $('#measure').off('click').on('click', function(){ self.actionsToolbar('measure'); });
+                $('#hotspot').off('click').on('click', function(){ self.actionsToolbar('hotspot'); });
+                $('#sections').off('click').on('click', function(){ self.actionsToolbar('sections'); });
+                $('#sections_on').off('click').on('click', function(){ self.actionsToolbar('sections_on'); });
+                console.log('[custom_report] Toolbar events bound.');
             };
 
             self.init3dhopViewer = function() {
-                console.log('Initializing 3DHOP viewer...');
-                
+                console.log('[custom_report] Initializing 3DHOP viewer...');
                 self.load3DHopScripts()
                     .then(function() {
-                        console.log('3DHOP scripts loaded, waiting for initialization...');
-                        
-                        setTimeout(function() {
-                            if (self.are3DHopScriptsLoaded()) {
-                                try {
-                                    console.log('Calling init3dhop...');
-                                    window.init3dhop();
-                                    console.log('init3dhop completed');
-                                    
-                                    self.setup3dhop();
-                                    window.sectiontoolInit();
-                                    if (typeof window.resizeCanvas === 'function') {
-                                        console.log('Resizing canvas to 800x600...');
-                                        window.resizeCanvas(800, 600);
-                                        console.log('Canvas resized');
-                                    } else {
-                                        console.warn('resizeCanvas function not available');
-                                    }
-                                    
-                                    self.bindToolbarEvents();
-                                    
-                                    console.log('3DHOP initialized successfully');
-                                } catch (error) {
-                                    console.error('Error initializing 3DHOP:', error);
-                                }
+                        console.log('[custom_report] 3DHOP scripts loaded (Presenter present?)', !!window.Presenter);
+
+                        if (typeof window.init3dhop === 'function') {
+                            try { console.log('[custom_report] Calling init3dhop...'); window.init3dhop(); }
+                            catch (e) { console.warn('[custom_report] init3dhop error:', e); }
+                        } else {
+                            console.warn('[custom_report] init3dhop not found (ok if your bundle doesn’t export it).');
+                        }
+
+                        // Najpierw spróbuj zbudować presenter (ustawia window.presenter)
+                        self.setup3dhop();
+
+                        // Odpalaj tylko jeśli presenter faktycznie powstał
+                        if (window.presenter) {
+                            if (typeof window.sectiontoolInit === 'function') {
+                                try { window.sectiontoolInit(); } catch(e) { console.warn('[custom_report] sectiontoolInit error:', e); }
                             } else {
-                                console.error('3DHOP functions still not available after loading scripts');
+                                console.warn('[custom_report] sectiontoolInit not found.');
                             }
-                        }, 1000);
+                            if (typeof window.resizeCanvas === 'function') {
+                                try { window.resizeCanvas(800, 600); } catch(e) { console.warn('[custom_report] resizeCanvas error:', e); }
+                            } else {
+                                console.warn('[custom_report] resizeCanvas not found.');
+                            }
+                        } else {
+                            console.warn('[custom_report] presenter not ready → skipping sectiontoolInit/resizeCanvas');
+                        }
+
+                        self.bindToolbarEvents();
+                        console.log('[custom_report] 3DHOP initialized (attempt) complete');
                     })
                     .catch(function(error) {
-                        console.error('Failed to load 3DHOP scripts:', error);
+                        console.error('[custom_report] Failed to load 3DHOP scripts:', error);
                     });
             };
 
-            // Inicjalizuj tylko raz
-            if (!window._3dhop_initialized) {
-                window._3dhop_initialized = true;
-                setTimeout(function() {
-                    console.log('Component initialization delay completed, starting 3DHOP init...');
-                    self.init3dhopViewer();
-                }, 500);
-            }
-            
-            console.log('Custom report viewModel initialization completed');
+            console.log('[custom_report] Delay done → starting 3DHOP init...');
+            self.init3dhopViewer();
+
+            console.log('[custom_report] viewModel initialization completed');
         },
         template: customReportTemplate,
     });
