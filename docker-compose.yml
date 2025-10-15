@@ -11,7 +11,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgis
       - POSTGRES_MULTIPLE_EXTENSIONS=postgis,postgis_topology
-    restart: always
+    restart: unless-stopped
     volumes:
         - postgres-data:/var/lib/postgresql/data/
         - postgres-log:/var/log/postgresql
@@ -30,7 +30,7 @@ services:
   arches_elasticsearch:
     container_name: arches_elasticsearch
     image: elasticsearch:8.5.3
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
     environment:
@@ -54,7 +54,7 @@ services:
   arches_redis:
     container_name: arches_redis
     image: "redis:6-alpine"
-    restart: always
+    restart: unless-stopped
     environment:
     - TZ="${TZ}"         
     ports:
@@ -73,6 +73,7 @@ services:
   cantaloupe_afs_plocal:
     container_name: cantaloupe_afs_plocal
     image: uclalibrary/cantaloupe:5.0.3-0
+    restart: unless-stopped
     volumes:
       - cantaloupe_afs_plocal:/imageroot
     ports:
@@ -85,6 +86,7 @@ services:
   arches:
     container_name: arches
     image: arches_afs
+    restart: unless-stopped
     env_file:
       - ./.env
     build:

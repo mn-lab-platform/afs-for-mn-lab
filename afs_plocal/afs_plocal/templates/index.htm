@@ -63,8 +63,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
             height: 100%;
         }
     </style> -->
-    {% endblock css%}
-    <link href="{% static 'css/project.css' %}" rel="stylesheet">
+    {% endblock css %}
 </head>
 
 <body>
@@ -85,9 +84,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
                     <div class="relative nav-brand-container">
                         <img class="landing-brand-icon" 
                             src="{% webpack_static 'img/landing/mare_nostrum_logo.png' %}" 
-                            alt="{% trans 'Mare Nostrum Logo' %}">
-                        <div class="application-name">
-                            <h1>Arches For Mare Nostrum</h1>
+                            alt="{% trans 'Mare Nostrum Logo' %}"
+                            style="max-width: 200px; max-height: 75px; width: auto; height: auto; align-self: start;">
+                        <div class="application-name" style="color: white;">
+                            <h2>Arches For Mare Nostrum</h2>
                         </div>
                     </div>
                 </div>
@@ -186,9 +186,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
                 
                 <img class="landing-brand-icon" 
                     src="{% webpack_static 'img/landing/mare_nostrum_logo.png' %}" 
-                    alt="{% trans 'Mare Nostrum Logo' %}">
-                <div class="organization-address">
-                  <h2 class="app-footer-heading">{% trans "Mare Nostrum Project" %}</h2>  
+                    alt="{% trans 'Mare Nostrum Logo' %}"
+                    style="max-width: 200px; max-height: 75px; width: auto; height: auto; align-self: start;">
+                <div class="organization-address" style="font-size: 0.82rem; font-weight: 300; line-height: 1.5; padding-left: 10px;">
+                  <h2 class="app-footer-heading" style="font-weight: 200; color: white; margin-top: 15px;">{% trans "Mare Nostrum Project" %}</h2>  
                   {% trans "Jagiellonian University" %}<br>
                   {% trans "Institute of Archeology" %}<br>
                   {% trans "Gołębia 11" %}<br>
@@ -199,7 +200,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
             <!-- Info Column -->
             <div class="col-lg-8" style="margin-top: 70px;">
-                <h2 class="app-footer-heading">{% trans "Guides and Documentation" %}</h2>
+                <h2 class="app-footer-heading" style="font-weight: 200; color: white; margin-top: 15px;">{% trans "Guides and Documentation" %}</h2>
 
                 <!-- Links -->
                 <div class="splash-links">
