@@ -183,6 +183,16 @@
                    }
                }"></div>
            </div>
+           <!-- 3D Viewer Tab -->
+            <div class="afs-report-page" data-bind="if: activeSection() === '3d-viewer'">
+                <div data-bind="component: {
+                    name: 'custom_report',
+                    params: {
+                        report: report(),
+                        summary: summary
+                    }
+                }"></div>
+            </div>
         </div>
     </div>
 

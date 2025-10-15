@@ -16,14 +16,9 @@
       background-color: #007cba;
       color: white;
     }
-    .output-panel {
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #f5f5f5;
-      border: 1px solid #ddd;
-    }
+
     .sections-box {
-      position: absolute;
+      position: relative;
       top: 10px;
       left: 10px;
       background: rgba(255, 255, 255, 0.9);
@@ -50,63 +45,61 @@
 {% endblock head %}
 
 {% block body %}
-  <div id="3dhop" class="tdhop" onmousedown="if (event.preventDefault) event.preventDefault()">
-        <div id="tdhlg"></div>        
-        <div id="toolbar">
-            <button id="home" title="Home">Home</button>
-            <button id="zoomin" title="Zoom In">+</button>
-            <button id="zoomout" title="Zoom Out">-</button>
-            <button id="light" title="Lighting">Light</button>
-            <button id="pick" title="Pick Point">Pick</button>
-            <button id="measure" title="Measure">Measure</button>
-            <button id="hotspot" title="Hotspots">Hotspot</button>
-            <!-- Add both sections buttons for proper toggle -->
-            <button id="sections_on" title="Disable Plane Sections" style="visibility:hidden;">Sections ON</button>
-            <button id="sections" title="Enable Plane Sections">Sections</button>
-        </div>
-        
-        <!-- Sections control box -->
-        <div id="sections-box" class="sections-box">
-          <table class="output-table" onmousedown="event.stopPropagation()">
-            <tr><td>Plane</td><td>Position</td><td>Flip</td></tr>
-            <tr><td><hr/></td><td><hr/></td><td><hr/></td></tr>
-            <tr>
-                <td>
-                    <button id="xplane_on" title="Disable X Axis Section" onclick="sectionxSwitch()" style="position:absolute; visibility:hidden;">X ON</button>
-                    <button id="xplane" title="Enable X Axis Section" onclick="sectionxSwitch()">X</button>
-                </td>
-                <td><input id="xplaneSlider" class="output-input" type="range" title="Move X Axis Section Position"/></td> 
-                <td><input id="xplaneFlip" class="output-input" type="checkbox" title="Flip X Axis Section Direction"/></td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="yplane_on" title="Disable Y Axis Section" onclick="sectionySwitch()" style="position:absolute; visibility:hidden;">Y ON</button>
-                    <button id="yplane" title="Enable Y Axis Section" onclick="sectionySwitch()">Y</button>
-                </td>
-                <td><input id="yplaneSlider" class="output-input" type="range" title="Move Y Axis Section Position"/></td> 
-                <td><input id="yplaneFlip" class="output-input" type="checkbox" title="Flip Y Axis Section Direction"/></td>
-            </tr>
-            <tr>
-                <td>
-                    <button id="zplane_on" title="Disable Z Axis Section" onclick="sectionzSwitch()" style="position:absolute; visibility:hidden;">Z ON</button>
-                    <button id="zplane" title="Enable Z Axis Section" onclick="sectionzSwitch()">Z</button>
-                </td>
-                <td><input id="zplaneSlider" class="output-input" type="range" title="Move Z Axis Section Position"/></td> 
-                <td><input id="zplaneFlip" class="output-input" type="checkbox" title="Flip Z Axis Section Direction"/></td>
-            </tr>
-          </table>
-          <table class="output-table" onmousedown="event.stopPropagation()" style="text-align:right;">
-            <tr>
-             <td>Show planes<input id="showPlane" class="output-input" type="checkbox" title="Show Section Planes"/></td>
-             <td>Show edges<input id="showBorder" class="output-input" type="checkbox" title="Show Section Edges"/></td>
-            </tr>
-          </table>
-        </div>
-        
-        <canvas id="draw-canvas" style="background-color: #7e7676"></canvas>
-        <div class="output-panel">
-            <div><strong>Picked Point:</strong> <span id="pickpoint-output">None</span></div>
-            <div><strong>Measurement:</strong> <span id="measure-output">None</span></div>
-        </div>
-    </div>
+  <div id="toolbar" style="position: relative; top: 10px; left: 10px; z-index: 1000; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 5px;">
+      <button id="home" title="Home">Home</button>
+      <button id="zoomin" title="Zoom In">+</button>
+      <button id="zoomout" title="Zoom Out">-</button>
+      <button id="light" title="Lighting">Light</button>
+      <button id="pick" title="Pick Point">Pick</button>
+      <button id="measure" title="Measure">Measure</button>
+      <button id="hotspot" title="Hotspots">Hotspot</button>
+      <button id="sections_on" title="Disable Plane Sections" style="visibility:hidden;">Sections ON</button>
+      <button id="sections" title="Enable Plane Sections">Sections</button>
+  </div>
+  <div class="output-panel" style="position: relative; top: 20px; left: 10px; z-index: 1000; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 5px;">
+      <div><strong>Picked Point:</strong> <span id="pickpoint-output">None</span></div>
+      <div><strong>Measurement:</strong> <span id="measure-output">None</span></div>
+  </div>    
+  <div id="sections-box" class="sections-box" >
+    <table class="output-table" onmousedown="event.stopPropagation()">
+      <tr><td>Plane</td><td>Position</td><td>Flip</td></tr>
+      <tr><td><hr/></td><td><hr/></td><td><hr/></td></tr>
+      <tr>
+          <td>
+              <button id="xplane_on" title="Disable X Axis Section" onclick="sectionxSwitch()" style="position:absolute; visibility:hidden;">X ON</button>
+              <button id="xplane" title="Enable X Axis Section" onclick="sectionxSwitch()">X</button>
+          </td>
+          <td><input id="xplaneSlider" class="output-input" type="range" title="Move X Axis Section Position"/></td> 
+          <td><input id="xplaneFlip" class="output-input" type="checkbox" title="Flip X Axis Section Direction"/></td>
+      </tr>
+      <tr>
+          <td>
+              <button id="yplane_on" title="Disable Y Axis Section" onclick="sectionySwitch()" style="position:absolute; visibility:hidden;">Y ON</button>
+              <button id="yplane" title="Enable Y Axis Section" onclick="sectionySwitch()">Y</button>
+          </td>
+          <td><input id="yplaneSlider" class="output-input" type="range" title="Move Y Axis Section Position"/></td> 
+          <td><input id="yplaneFlip" class="output-input" type="checkbox" title="Flip Y Axis Section Direction"/></td>
+      </tr>
+      <tr>
+          <td>
+              <button id="zplane_on" title="Disable Z Axis Section" onclick="sectionzSwitch()" style="position:absolute; visibility:hidden;">Z ON</button>
+              <button id="zplane" title="Enable Z Axis Section" onclick="sectionzSwitch()">Z</button>
+          </td>
+          <td><input id="zplaneSlider" class="output-input" type="range" title="Move Z Axis Section Position"/></td> 
+          <td><input id="zplaneFlip" class="output-input" type="checkbox" title="Flip Z Axis Section Direction"/></td>
+      </tr>
+    </table>
+    <table class="output-table" onmousedown="event.stopPropagation()" style="text-align:right;">
+      <tr>
+        <td>Show planes<input id="showPlane" class="output-input" type="checkbox" title="Show Section Planes"/></td>
+        <td>Show edges<input id="showBorder" class="output-input" type="checkbox" title="Show Section Edges"/></td>
+      </tr>
+    </table>
+  </div> 
+
+  <div id="3dhop" class="tdhop" style="position: relative; height: 500px;">    
+    <canvas id="draw-canvas" style="width: 100%; height: 100%; background-color: #7e7676; display: block;"></canvas> 
+  </div>
+  
+
 {% endblock body %}
