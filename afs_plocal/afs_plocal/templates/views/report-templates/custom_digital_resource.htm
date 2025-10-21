@@ -193,6 +193,16 @@
                     }
                 }"></div>
             </div>
+            <!-- RTI Viewer Tab -->
+            <div class="afs-report-page" data-bind="if: activeSection() === 'rti-viewer'">
+                <div data-bind="component: {
+                    name: 'viewer_report',
+                    params: {
+                        report: report(),
+                        summary: summary
+                    }
+                }"></div>
+            </div>
         </div>
     </div>
 

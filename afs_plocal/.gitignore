@@ -7,3 +7,5 @@ coverage/
 *.egg-info
 .DS_STORE
 CACHE
+
+afs_plocal/media/build/
