@@ -32,17 +32,18 @@ define([
     }
 
     // image base url http://localhost:8183/iiif/3
-    async function ptmLayerFromCantaloupeServer(imageGroupId, imageServerBaseUrl, manifestFileUrl, rotation=0) {
+    async function ptmLayerFromCantaloupeServer(imageServerBaseUrl, manifestFileUrl, rotation=0) {
         console.log("Fetching manifest from:", manifestFileUrl);
         console.log("Image Server Base URL:", imageServerBaseUrl);
         const manifestJson = await downloadInfoJson(manifestFileUrl);
         const ptmParams = ptmParametersFromManifest(manifestJson);
 
-        const textures = [
-            `${imageServerBaseUrl}/${imageGroupId}_plane_0.jpg/full/max/${rotation}/default.jpg`,
-            `${imageServerBaseUrl}/${imageGroupId}_plane_1.jpg/full/max/${rotation}/default.jpg`,
-            `${imageServerBaseUrl}/${imageGroupId}_plane_2.jpg/full/max/${rotation}/default.jpg`
-        ];
+        const annotations = manifestJson.items[0].items[0].items;
+
+        const textures = annotations.map(annotation => {
+            const serviceId = annotation.body.service[0].id;
+            return `${serviceId}/full/max/${rotation}/default.jpg`;
+        });
 
         const bounds = [
             [0, 0], [ptmParams.height, ptmParams.width]

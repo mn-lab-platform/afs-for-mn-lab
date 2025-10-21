@@ -2908,6 +2908,16 @@
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/edit-history.js",
       "publicPath": "/static/js/views/edit-history.js"
     },
+    "js/views/functions/3dhop_function.js": {
+      "name": "js/views/functions/3dhop_function.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/functions/3dhop_function.js",
+      "publicPath": "/static/js/views/functions/3dhop_function.js"
+    },
+    "js/views/functions/rti_function.js": {
+      "name": "js/views/functions/rti_function.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/functions/rti_function.js",
+      "publicPath": "/static/js/views/functions/rti_function.js"
+    },
     "js/views/graph-designer-data.js": {
       "name": "js/views/graph-designer-data.js",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/graph-designer-data.js",
@@ -4454,6 +4464,12 @@
     ],
     "views/edit-history": [
       "js/views/edit-history.js"
+    ],
+    "views/functions/3dhop_function": [
+      "js/views/functions/3dhop_function.js"
+    ],
+    "views/functions/rti_function": [
+      "js/views/functions/rti_function.js"
     ],
     "views/graph": [
       "js/views/graph.js"

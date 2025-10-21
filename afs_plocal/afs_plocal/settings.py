@@ -40,6 +40,7 @@ FILE_TYPES = [
     "pdf",
     "png",
     "psd",
+    "ply",
     "rtf",
     "tif",
     "tiff",
