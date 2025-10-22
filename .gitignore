@@ -3,3 +3,4 @@
 *.env
 .env
 /arches/arches_data/packages/
+afs_plocal/media/build/

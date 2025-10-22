@@ -105,10 +105,14 @@ define([
                     return null;
                 }
 
-                // Wybierz pierwszy wpis, w którym JAKIEKOLWIEK z pól kończy się na .nxz/.nxs/.ply
-                const is3d = s => /\.(nxz|nxs|ply)$/i.test(String(s || '').toLowerCase());
-                const pick = details.find(d => is3d(d?.path) || is3d(d?.url) || is3d(d?.name)) || details[0];
-
+                // Wybierz pierwszy wpis, w którym JAKIEKOLWIEK z pól kończy się na .nxz/.nxs
+                const is3d = s => /\.(nxz|nxs)$/i.test(String(s || '').toLowerCase());
+                const pick = details.find(d => is3d(d?.path) || is3d(d?.url) || is3d(d?.name));
+                console.log('[custom_report] Chosen file_details:', pick);
+                if (!pick) {
+                    console.warn('[custom_report] No .nxs or .nxz files found in file_details');
+                    return null;
+                }                
                 // 1) PRIORYTET: path → MEDIA + path (bo path ma rozszerzenie i stabilną relację do MEDIA_URL)
                 if (pick?.path) {
                     const url = MEDIA + String(pick.path).replace(/^\/+/, '');
