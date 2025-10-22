@@ -2023,6 +2023,11 @@
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/components/cards/map.js",
       "publicPath": "/static/js/views/components/cards/map.js"
     },
+    "js/views/components/cards/my-new-card.js": {
+      "name": "js/views/components/cards/my-new-card.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/components/cards/my-new-card.js",
+      "publicPath": "/static/js/views/components/cards/my-new-card.js"
+    },
     "js/views/components/cards/photo-gallery-card.js": {
       "name": "js/views/components/cards/photo-gallery-card.js",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/components/cards/photo-gallery-card.js",
@@ -3933,6 +3938,9 @@
     ],
     "views/components/cards/map": [
       "js/views/components/cards/map.js"
+    ],
+    "views/components/cards/my-new-card": [
+      "js/views/components/cards/my-new-card.js"
     ],
     "views/components/cards/photo-gallery-card": [
       "js/views/components/cards/photo-gallery-card.js"

@@ -161,6 +161,24 @@ services:
   #     - arches
   #   networks:
   #     - afs_plocal_net
+
+  nexus_converter:
+    container_name: nexus_converter
+    restart: unless-stopped    
+    build:
+      context: ./nexus
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - nexus-data:/app/data
+      - nexus-temp:/app/temp
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - afs_plocal_net
+
 networks:
   afs_plocal_net:
     driver: bridge
@@ -176,3 +194,5 @@ volumes:
   arches-log:
   arches-static:
   cantaloupe_afs_plocal:
+  nexus-data:
+  nexus-temp:
