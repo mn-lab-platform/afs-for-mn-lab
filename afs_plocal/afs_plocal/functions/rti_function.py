@@ -39,6 +39,10 @@ class RtiFunction(BaseFunction):
         nodegroup_id_str = str(tile.nodegroup.nodegroupid)
         original_file_list = tile.data.get(nodegroup_id_str, [])
 
+        if not original_file_list or not any(isinstance(f, dict) for f in original_file_list):
+            print("No file objects to process (list is empty or contains only resource references).")
+            return
+
         already_processed = any(
             'rti_metadata' in f 
             for f in original_file_list 
@@ -61,6 +65,10 @@ class RtiFunction(BaseFunction):
             return
 
         for file_data in original_file_list:
+            if not isinstance(file_data, dict):
+                new_file_list.append(file_data)
+                continue
+            
             file_path = file_data.get('path')
             file_name = file_data.get('name', '')
 
