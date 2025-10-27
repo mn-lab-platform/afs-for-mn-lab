@@ -21,7 +21,7 @@ define([
             this.dom = createChildDiv(domElement, {className: "ptm-container"});
             this.options = createOptions;
             this.createUi();
-            this.createPtmLayer(createOptions.imageGroupId, createOptions.imageServerBaseUrl, createOptions.manifestFileUrl);
+            this.createPtmLayer(createOptions.imageServerBaseUrl, createOptions.manifestFileUrl);
         }
 
         createUi() {
@@ -94,7 +94,6 @@ define([
                 this.map.removeLayer(this.layer);
             }
             this.layer = await ptmLayerFactory.ptmLayerFromCantaloupeServer(
-                this.options.imageGroupId,
                 this.options.imageServerBaseUrl,
                 this.options.manifestFileUrl,
                 angle
@@ -103,8 +102,8 @@ define([
             this.layer.rotationAngle = angle;
         }
 
-        async createPtmLayer(imageGroupId, imageServerBaseUrl, manifestFileUrl) {
-            this.layer = await ptmLayerFactory.ptmLayerFromCantaloupeServer(imageGroupId, imageServerBaseUrl, manifestFileUrl);
+        async createPtmLayer(imageServerBaseUrl, manifestFileUrl) {
+            this.layer = await ptmLayerFactory.ptmLayerFromCantaloupeServer(imageServerBaseUrl, manifestFileUrl);
             const mapBounds = [this.layer.options.imageHeight / 2,
             this.layer.options.imageWidth / 2];
             this.map.setView(mapBounds, -3);

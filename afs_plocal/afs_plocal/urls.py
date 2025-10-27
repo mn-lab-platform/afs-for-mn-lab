@@ -8,7 +8,7 @@ from afs_plocal.views.rti_manifest import RtiManifestView
 # Adds URL pattern to serve media files during development
 urlpatterns = [
     path("dashdata/", Dashboard.as_view(), name="dashdata"),
-    path("rti-manifest", RtiManifestView.as_view(), name="rti_manifest"),
+    path("rti-manifest/<str:tile_id>/", RtiManifestView.as_view(), name="rti_manifest"),
     path("", include("arches.urls")),
     path("", include("arches_for_science.urls")),
     path("reports/", include("arches_templating.urls")),

@@ -12,7 +12,7 @@ define([
             
             ReportViewModel.apply(this, [params]);
             
-            var self = this;
+            const self = this;
             self.viewerInitialized = false;
             
             this.onPtmViewerRendered = function() {
@@ -21,14 +21,14 @@ define([
                     return;
                 }
                 
-                var viewerEl = document.getElementById('ptmViewer');
+                const viewerEl = document.getElementById('ptmViewer');
                 if (!viewerEl) {
                     console.error("ptmViewer element not found");
                     return;
                 }
 
                 // Check if PTM containers already exist
-                var existingContainers = viewerEl.querySelectorAll('.ptm-container');
+                const existingContainers = viewerEl.querySelectorAll('.ptm-container');
                 if (existingContainers.length > 0) {
                     console.log("PTM containers already exist, skipping initialization");
                     return;
@@ -38,13 +38,12 @@ define([
                 viewerEl.innerHTML = '';
                 
                 console.log("Initializing PTM viewer...");
-                
+                const tileId = params.report?.report_json?.resource?.File?.[0]?.['@tile_id'];
                 require(['../../viewer/index.js'], function(viewer) {
                     try {
                         viewer.init("ptmViewer", {
-                            imageGroupId: "test",
                             imageServerBaseUrl: "/iiifserver/iiif/3",
-                            manifestFileUrl: "/rti-manifest"
+                            manifestFileUrl: `/rti-manifest/${tileId}`
                         });
                     } catch (e) {
                         console.error("Error initializing viewer:", e);

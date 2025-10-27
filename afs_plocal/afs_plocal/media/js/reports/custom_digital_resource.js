@@ -14,15 +14,18 @@ define([
     'views/components/reports/scenes/substance',
     'views/components/reports/scenes/json',
     'views/components/reports/scenes/default',
-    'reports/custom_report'
+    'reports/custom_report',
+    'reports/viewer_report'
 ], function($, _, ko, L, customDigitalResourceTemplate, arches, resourceUtils, reportUtils) {
     console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA')
     console.log("Leaflet loaded:", L);
     console.log("Leaflet version:", L.version);
+    console.log("Resource utils:", resourceUtils);
     return ko.components.register('custom_digital_resource', {
         viewModel: function(params) {
             var self = this;
             console.log("Inside viewModel - Leaflet:", L);
+            console.log("Report json:", params.report?.report_json);
             params.configKeys = ['tabs', 'activeTabIndex'];
             Object.assign(self, reportUtils);
 
@@ -53,8 +56,8 @@ define([
                 {id: 'description', title: arches.translations.description},
                 {id: 'documentation', title: arches.translations.documentation},
                 {id: 'json', title: 'JSON'},
-                {id: '3d-viewer', title: '3D Viewer'}
-                
+                {id: '3d-viewer', title: '3D Viewer'},
+                {id: 'rti-viewer', title: 'PTM Viewer'}
             ];
 
             self.filesTable = {

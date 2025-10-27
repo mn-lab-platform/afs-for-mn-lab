@@ -40,6 +40,7 @@ FILE_TYPES = [
     "pdf",
     "png",
     "psd",
+    "ply",
     "rtf",
     "tif",
     "tiff",
@@ -48,6 +49,7 @@ FILE_TYPES = [
     "zip",
     "txt",
     "nxz",
+    "ply",
 ]
 FILENAME_GENERATOR = "arches.app.utils.storage_filename_generator.generate_filename"
 UPLOADED_FILES_DIR = "uploadedfiles"
@@ -362,7 +364,7 @@ CELERY_BEAT_SCHEDULE = {
 CELERY_CHECK_ONLY_INSPECT_BROKER = False
 
 CANTALOUPE_DIR = os.path.join(ROOT_DIR, UPLOADED_FILES_DIR)
-CANTALOUPE_HTTP_ENDPOINT = "http://localhost:8182/"
+CANTALOUPE_HTTP_ENDPOINT = "http://cantaloupe_afs_plocal:8182/"
 
 ACCESSIBILITY_MODE = False
 

@@ -12,3 +12,5 @@ docker exec -it arches python manage.py report register -s ./afs_plocal/reports/
 /arches_app/arches-for-science/arches_for_science/templates/views/components/reports/digital-resource.htm
 
 docker exec arches find / -name "bhutan_tigersnest_lr.jpg"
+
+docker exec -it arches python manage.py fn register --source ./afs_plocal/functions/rti_function.py
