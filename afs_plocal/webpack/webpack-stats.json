@@ -1748,15 +1748,20 @@
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/vendors-node_modules_jquery-validation_dist_jquery_validate_min_js.chunk.js",
       "publicPath": "/static/js/vendors-node_modules_jquery-validation_dist_jquery_validate_min_js.chunk.js"
     },
+    "js/vendors-node_modules_leaflet_dist_leaflet_js.chunk.js": {
+      "name": "js/vendors-node_modules_leaflet_dist_leaflet_js.chunk.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/vendors-node_modules_leaflet_dist_leaflet_js.chunk.js",
+      "publicPath": "/static/js/vendors-node_modules_leaflet_dist_leaflet_js.chunk.js"
+    },
     "js/vendors-node_modules_mapbox-gl_dist_mapbox-gl_js.chunk.js": {
       "name": "js/vendors-node_modules_mapbox-gl_dist_mapbox-gl_js.chunk.js",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/vendors-node_modules_mapbox-gl_dist_mapbox-gl_js.chunk.js",
       "publicPath": "/static/js/vendors-node_modules_mapbox-gl_dist_mapbox-gl_js.chunk.js"
     },
-    "js/vendors-node_modules_mapbox_geojson-extent_geojson-extent_js-node_modules_mapbox_geojsonhint_-0b2824.chunk.js": {
-      "name": "js/vendors-node_modules_mapbox_geojson-extent_geojson-extent_js-node_modules_mapbox_geojsonhint_-0b2824.chunk.js",
-      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/vendors-node_modules_mapbox_geojson-extent_geojson-extent_js-node_modules_mapbox_geojsonhint_-0b2824.chunk.js",
-      "publicPath": "/static/js/vendors-node_modules_mapbox_geojson-extent_geojson-extent_js-node_modules_mapbox_geojsonhint_-0b2824.chunk.js"
+    "js/vendors-node_modules_mapbox_geojson-extent_geojson-extent_js-node_modules_mapbox_geojsonhint_-df13e0.chunk.js": {
+      "name": "js/vendors-node_modules_mapbox_geojson-extent_geojson-extent_js-node_modules_mapbox_geojsonhint_-df13e0.chunk.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/vendors-node_modules_mapbox_geojson-extent_geojson-extent_js-node_modules_mapbox_geojsonhint_-df13e0.chunk.js",
+      "publicPath": "/static/js/vendors-node_modules_mapbox_geojson-extent_geojson-extent_js-node_modules_mapbox_geojsonhint_-df13e0.chunk.js"
     },
     "js/vendors-node_modules_mapbox_mapbox-gl-draw_dist_mapbox-gl-draw_js.chunk.js": {
       "name": "js/vendors-node_modules_mapbox_mapbox-gl-draw_dist_mapbox-gl-draw_js.chunk.js",

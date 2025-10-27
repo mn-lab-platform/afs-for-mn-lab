@@ -1,4 +1,4 @@
-define(['../leaflet/leaflet-src.esm.js'], function(L) {
+define(['leaflet'], function(L) {
 
     const mapCreationOptions = {
         crs: L.CRS.Simple,
