@@ -2058,6 +2058,11 @@
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/components/cards/select-related-feature-layers.js",
       "publicPath": "/static/js/views/components/cards/select-related-feature-layers.js"
     },
+    "js/views/components/custom/rti_viewer.js": {
+      "name": "js/views/components/custom/rti_viewer.js",
+      "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/components/custom/rti_viewer.js",
+      "publicPath": "/static/js/views/components/custom/rti_viewer.js"
+    },
     "js/views/components/datatypes/boolean.js": {
       "name": "js/views/components/datatypes/boolean.js",
       "path": "/arches_app/afs_plocal/afs_plocal/media/build/js/views/components/datatypes/boolean.js",
@@ -3961,6 +3966,9 @@
     ],
     "views/components/cards/select-related-feature-layers": [
       "js/views/components/cards/select-related-feature-layers.js"
+    ],
+    "views/components/custom/rti_viewer": [
+      "js/views/components/custom/rti_viewer.js"
     ],
     "views/components/datatypes/boolean": [
       "js/views/components/datatypes/boolean.js"

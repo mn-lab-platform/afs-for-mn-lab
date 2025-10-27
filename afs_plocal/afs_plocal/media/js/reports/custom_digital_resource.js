@@ -15,7 +15,7 @@ define([
     'views/components/reports/scenes/json',
     'views/components/reports/scenes/default',
     'reports/custom_report',
-    'reports/viewer_report'
+    'views/components/custom/rti_viewer'
 ], function($, _, ko, L, customDigitalResourceTemplate, arches, resourceUtils, reportUtils) {
     console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA')
     console.log("Leaflet loaded:", L);

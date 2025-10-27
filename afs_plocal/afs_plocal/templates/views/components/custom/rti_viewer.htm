@@ -1,0 +1,52 @@
+<style>
+    .ptm-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    .ptm-map {
+        width: 100%;
+        height: 100%;
+    }
+
+    .ptm-sphere {
+        aspect-ratio: 1;
+        border-radius: 50%;
+        position: absolute; 
+        top: 2%; 
+        right: 2%; 
+        z-index: 1000;
+    }
+
+    .rotate-button {
+        width: 35px;
+        height: 35px;
+        font-size: large;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        box-sizing: border-box;
+    }
+
+    .rotate-button.right-highlight {
+        border-right: 5px solid #0059b3;
+    }
+
+    .rotate-button.bottom-highlight {
+        border-bottom: 5px solid #0059b3;
+    }
+
+    .rotate-button.left-highlight {
+        border-left: 5px solid #0059b3;
+    }
+</style>
+    
+<div data-bind="template: { afterRender: onPtmViewerRendered }">
+    <div id="ptmViewer" style="width: 100%; height: 500px; margin: 20px 0; border: 1px solid #ccc;"></div>
+</div>
