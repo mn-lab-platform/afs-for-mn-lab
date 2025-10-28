@@ -93,13 +93,19 @@ define([
             if (this.layer) {
                 this.map.removeLayer(this.layer);
             }
-            this.layer = await ptmLayerFactory.ptmLayerFromCantaloupeServer(
+            const newLayer = await ptmLayerFactory.ptmLayerFromCantaloupeServer(
                 this.options.imageServerBaseUrl,
                 this.options.manifestFileUrl,
                 angle
             );
+            
+            newLayer.rotationAngle = angle;
+            
+            if (this.layer) {
+                this.map.removeLayer(this.layer);
+            }
+            this.layer = newLayer;
             this.layer.addTo(this.map);
-            this.layer.rotationAngle = angle;
         }
 
         async createPtmLayer(imageServerBaseUrl, manifestFileUrl) {

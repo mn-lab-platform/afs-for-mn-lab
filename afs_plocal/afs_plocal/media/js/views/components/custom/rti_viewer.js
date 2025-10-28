@@ -4,7 +4,7 @@ define([
     'templates/views/components/custom/rti_viewer.htm',
 ], function(ko, rtiViewerTemplate) {
 
-    return ko.components.register('rti_viewer', {
+    return ko.components.register('rti-viewer', {
         viewModel: function(params) {
             params.configKeys = [];
             

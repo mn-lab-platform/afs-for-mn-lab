@@ -67,7 +67,7 @@ define([
         gl.activeTexture(gl.TEXTURE0 + index);
         gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, 
-                gl.UNSIGNED_BYTE, new Uint8Array([240, 240, 240, 255]));
+                gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 0]));
         gl.uniform1i(uniform, index);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
@@ -136,8 +136,8 @@ define([
             this.canvas.height = canvas_height;
             gl.viewportHeight = canvas_height;
             gl.viewport(0, 0, canvas_width, canvas_height);
-            
-            gl.clearColor(0.5, 0.5, 0.5, 0);
+
+            gl.clearColor(0.0, 0.0, 0.0, 0.0);
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LEQUAL);
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);

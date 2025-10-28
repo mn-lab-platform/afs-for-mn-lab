@@ -73,23 +73,11 @@ define([
                 }
             };
 
-
             self.visible = { files: ko.observable(true) }
             self.reportMetadata = ko.observable(params.report?.report_json);
             console.log(self.reportMetadata)
             self.report = ko.observable(params.report)
             self.resource = ko.observable(self.reportMetadata()?.resource);
-
-            self.hasRtiViewer = ko.pureComputed(() => {
-                const filesNode = self.getRawNodeValue(self.resource(), 'file');
-                if (!filesNode) {
-                    return false;
-                }
-                return filesNode.some(tile => {
-                    const fileList = tile?.['file_details']?.[0]?.['file'];
-                    return Array.isArray(fileList) && fileList.some(file => file?.rti_metadata);
-                });
-            });
 
             self.displayname = ko.observable(ko.unwrap(self.reportMetadata)?.displayname);
             self.activeSection = ko.observable('name');
