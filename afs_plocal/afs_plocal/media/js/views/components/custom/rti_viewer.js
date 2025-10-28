@@ -1,3 +1,4 @@
+console.log("llklkkhihijnkj")
 define([
     'knockout',
     'templates/views/components/custom/rti_viewer.htm',

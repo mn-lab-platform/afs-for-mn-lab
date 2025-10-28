@@ -194,15 +194,17 @@
                 }"></div>
             </div>
             <!-- RTI Viewer Tab -->
+            <!-- ko if: hasRtiViewer -->
             <div class="afs-report-page" data-bind="if: activeSection() === 'rti-viewer'">
                 <div data-bind="component: {
-                    name: 'rti_viewer',
+                    name: 'rti-viewer',
                     params: {
                         report: report(),
                         summary: summary
                     }
                 }"></div>
             </div>
+            <!-- /ko -->
         </div>
     </div>
 
