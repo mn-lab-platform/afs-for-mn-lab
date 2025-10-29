@@ -1,5 +1,5 @@
 define([
-	'../leaflet/leaflet-src.esm.js',
+	'leaflet',
     './ptm_webgl_setup.js'
 ], function(L, PtmWebglSetup) {
 

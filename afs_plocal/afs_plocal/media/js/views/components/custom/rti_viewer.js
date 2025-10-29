@@ -1,16 +1,12 @@
-console.log("viewer_report.js loaded");
-
+console.log("llklkkhihijnkj")
 define([
     'knockout',
-    'viewmodels/report',
-    'templates/views/report-templates/viewer_report.htm',
-], function(ko, ReportViewModel, viewerReportTemplate) {
-    
-    return ko.components.register('viewer_report', {
+    'templates/views/components/custom/rti_viewer.htm',
+], function(ko, rtiViewerTemplate) {
+
+    return ko.components.register('rti-viewer', {
         viewModel: function(params) {
             params.configKeys = [];
-            
-            ReportViewModel.apply(this, [params]);
             
             const self = this;
             self.viewerInitialized = false;
@@ -39,7 +35,7 @@ define([
                 
                 console.log("Initializing PTM viewer...");
                 const tileId = params.report?.report_json?.resource?.File?.[0]?.['@tile_id'];
-                require(['../../viewer/index.js'], function(viewer) {
+                require(['../../../../viewer/index.js'], function(viewer) {
                     try {
                         viewer.init("ptmViewer", {
                             imageServerBaseUrl: "/iiifserver/iiif/3",
@@ -52,6 +48,6 @@ define([
                 });
             };
         },
-        template: viewerReportTemplate,
+        template: rtiViewerTemplate,
     });
 });

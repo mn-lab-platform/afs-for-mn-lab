@@ -15,10 +15,10 @@ define([
     'views/components/reports/scenes/json',
     'views/components/reports/scenes/default',
     'reports/custom_report',
-    'reports/viewer_report'
+    'views/components/custom/rti_viewer'
 ], function($, _, ko, L, customDigitalResourceTemplate, arches, resourceUtils, reportUtils) {
     console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaA')
-    console.log("Leaflet loaded:", L);
+    console.log("Leaflet loadedddddddaaaaaa:", L);
     console.log("Leaflet version:", L.version);
     console.log("Resource utils:", resourceUtils);
     return ko.components.register('custom_digital_resource', {
@@ -28,7 +28,7 @@ define([
             console.log("Report json:", params.report?.report_json);
             params.configKeys = ['tabs', 'activeTabIndex'];
             Object.assign(self, reportUtils);
-
+            console.log("self", self);
             const cardIds = self.cardIds = Object.freeze({
                 nameOfDigitalResource: 'd2fdae3d-ca7a-11e9-ad84-a4d18cec433a',
                 identifierOfDigitalResource: 'db05b5ca-ca7a-11e9-82ca-a4d18cec433a',
@@ -73,12 +73,12 @@ define([
                 }
             };
 
-
             self.visible = { files: ko.observable(true) }
             self.reportMetadata = ko.observable(params.report?.report_json);
             console.log(self.reportMetadata)
             self.report = ko.observable(params.report)
             self.resource = ko.observable(self.reportMetadata()?.resource);
+
             self.displayname = ko.observable(ko.unwrap(self.reportMetadata)?.displayname);
             self.activeSection = ko.observable('name');
             self.nameDataConfig = { exactMatch: undefined };

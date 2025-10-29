@@ -121,6 +121,7 @@ services:
       - 80:8000
       - 5678:5678
       - 5984:5984
+      - 9000:9000
     depends_on:
       - arches_db
       - arches_elasticsearch
