@@ -57,7 +57,7 @@ define([
                 {id: 'documentation', title: arches.translations.documentation},
                 {id: 'json', title: 'JSON'},
                 {id: '3d-viewer', title: '3D Viewer'},
-                {id: 'rti-viewer', title: 'PTM Viewer'}
+                {id: 'rti-viewer', title: 'RTI Viewer'}
             ];
 
             self.filesTable = {

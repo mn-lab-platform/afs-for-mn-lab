@@ -103,7 +103,7 @@ USE_TZ = True
 # This is the namespace to use for export of data (for RDF/XML for example)
 # It must point to the url where you host your site
 # Make sure to use a trailing slash
-ARCHES_NAMESPACE_FOR_DATA_EXPORT = "http://lab.mn.cenagis.edu.pl/"
+ARCHES_NAMESPACE_FOR_DATA_EXPORT = "https://lab.mn.cenagis.edu.pl/"
 
 DATABASES = {
     "default": {
@@ -211,14 +211,13 @@ TEMPLATES = build_templates_config(
     ],
 )
 
-
-ALLOWED_HOSTS = [
-    'lab.mn.cenagis.edu.pl',
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://lab.mn.cenagis.edu.pl',
-]
+ALLOWED_HOSTS = [ 'lab.mn.cenagis.edu.pl', ]
+CSRF_TRUSTED_ORIGINS = [ 'https://lab.mn.cenagis.edu.pl', ]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_TLS = True
+SECURE_SSL_REDIRECT = False 
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 SYSTEM_SETTINGS_LOCAL_PATH = os.path.join(APP_ROOT, 'system_settings', 'System_Settings.json')

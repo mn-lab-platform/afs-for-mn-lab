@@ -36,7 +36,7 @@ class RtiManifestView(View):
             
             input_data = RtiManifestGeneratorInput(
                 manifest_base_url=request.build_absolute_uri('/')[:-1],
-                iiif_server_base_url="http://localhost:8183/iiif/3",
+                iiif_server_base_url="https://lab.mn.cenagis.edu.pl/iiifserver/iiif/3",
                 bias=rti_data['bias'],
                 scale=rti_data['scale'],
                 height=rti_data['height'],
