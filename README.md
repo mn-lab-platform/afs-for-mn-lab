@@ -1,4 +1,12 @@
-# arches-via-docker
+# AFS for MN Lab Excavation
+
+This repository is the MN Lab fork of [OpenContext's `arches-via-docker`](https://github.com/opencontext/arches-via-docker), adapted for excavation workflows based on Arches for Science (AfS). It retains the upstream deployment documentation and its AGPL-3.0 license.
+
+MN Lab-specific features, workflow documentation, and project updates are published in the [MN Lab Platform documentation](https://github.com/mn-lab-platform/mn-lab-platform.github.io).
+
+---
+
+# Upstream: arches-via-docker
 Deployment of [Arches for Science](https://www.archesproject.org/arches-for-science/) via Docker. We initially developed this repo to simplify and streamline deployment of Arches for Science (AfS) to make testing of development branches easier. This deployment attempts to implement, using Docker, instructions for deploying AfS version dev/2.0.x as documented here: [https://github.com/archesproject/arches-for-science/tree/dev/2.0.x#readme](https://github.com/archesproject/arches-for-science/tree/dev/2.0.x#readme)
 
 
