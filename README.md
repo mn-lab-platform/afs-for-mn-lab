@@ -2,7 +2,7 @@
 
 This repository is the MN Lab fork of [OpenContext's `arches-via-docker`](https://github.com/opencontext/arches-via-docker), adapted for excavation workflows based on Arches for Science (AfS). It retains the upstream deployment documentation and its AGPL-3.0 license.
 
-MN Lab-specific features and project changes are documented in [AfS for Mare Nostrum Lab](https://github.com/mn-lab-platform/mn-lab-platform.github.io/tree/main/docs/afs-for-mare-nostrum-lab).
+MN Lab-specific features and project changes are documented in [AfS for Mare Nostrum Lab]([https://github.com/mn-lab-platform/mn-lab-platform.github.io/tree/main/docs/afs-for-mare-nostrum-lab](https://mn-lab-platform.github.io/afs-for-mare-nostrum-lab/about/)).
 
 ---
 
